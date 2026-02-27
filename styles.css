@@ -25,7 +25,7 @@
   --card-radius: 20px;
 
   /* Safe area (margem interna para não colar nas bordas) */
-  --safe-area-padding: clamp(16px, 4vh, 32px);
+  --safe-area-padding: clamp(24px, 5vh, 40px);
 
   /* Tipografia base */
   --font-title: "Orbitron", system-ui, sans-serif;
@@ -209,7 +209,7 @@ button {
    ========================================================================== */
 .kiosk-header {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: 20px;
 }
@@ -261,20 +261,7 @@ button {
   text-shadow: 0 0 16px rgba(249, 255, 123, 0.95);
 }
 
-.btn-home {
-  justify-self: end;
-  display: none; /* por padrão não aparece na tela de cursos */
-}
-
-/* Quando estiver em tela de detalhes, abrimos espaço para o botão "Voltar"
-   e mantemos o título centralizado na coluna do meio */
-.app--detail .kiosk-header {
-  grid-template-columns: auto 1fr auto;
-}
-
-.app--detail .btn-home {
-  display: inline-flex;
-}
+/* não há mais botão no header; o título fica sempre centralizado */
 
 /* ==========================================================================
    BOTÕES
@@ -353,13 +340,26 @@ button {
 .screen {
   position: relative;
   flex: 1;
-  min-height: 0; /* permite que filhos com overflow (discipline-list) rolem */
+  min-height: 0; /* permite que filhos com overflow rolem */
+  /* por padrão, telas ficam ocultas; apenas .screen--active aparece */
   display: none;
+  /* centralização vertical entre header e footer,
+     o conteúdo real fica em .screen-body */
   flex-direction: column;
 }
 
 .screen--active {
   display: flex;
+}
+
+.screen-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  /* centraliza verticalmente o bloco entre header e footer
+     quando o conteúdo é menor que o espaço disponível */
+  margin-block: auto;
 }
 
 .screen-title {

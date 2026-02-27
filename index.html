@@ -29,15 +29,10 @@
 
     <div class="app safe-area">
       <header class="kiosk-header">
-
         <div class="kiosk-header__titles">
           <h1 class="app-title">START UNISENAC</h1>
           <p class="app-subtitle">aprender fazendo muda tudo</p>
         </div>
-
-        <button id="btn-home" class="btn-secondary btn-home" type="button">
-          Voltar
-        </button>
       </header>
 
       <main class="kiosk-main">
@@ -47,16 +42,18 @@
           class="screen screen--active screen--courses"
           aria-label="Lista de cursos"
         >
-          <h2 class="screen-title">Escolha seu curso</h2>
-          <p class="screen-description">
-            Toque no curso para ver as disciplinas e salas.
-          </p>
+          <div class="screen-body">
+            <h2 class="screen-title">Escolha seu curso</h2>
+            <p class="screen-description">
+              Toque no curso para ver as disciplinas e salas.
+            </p>
 
-          <div
-            id="courses-grid"
-            class="course-grid"
-            aria-live="polite"
-          ></div>
+            <div
+              id="courses-grid"
+              class="course-grid"
+              aria-live="polite"
+            ></div>
+          </div>
         </section>
 
         <!-- Tela 2: Disciplinas e Salas -->
@@ -65,18 +62,30 @@
           class="screen"
           aria-label="Disciplinas do curso selecionado"
         >
-          <div class="screen-top">
-            <h2 class="screen-title screen-title--detail" id="detail-course-title"></h2>
-            <p class="screen-description" id="detail-course-subtitle">
-              Consulte abaixo as disciplinas e salas deste curso.
-            </p>
-          </div>
+          <div class="screen-body">
+            <div class="screen-top">
+              <h2 class="screen-title screen-title--detail" id="detail-course-title"></h2>
+              <p class="screen-description" id="detail-course-subtitle">
+                Consulte abaixo as disciplinas e salas deste curso.
+              </p>
+            </div>
 
-          <div
-            id="discipline-list"
-            class="discipline-list"
-            aria-live="polite"
-          ></div>
+            <div
+              id="discipline-list"
+              class="discipline-list"
+              aria-live="polite"
+            ></div>
+
+            <div class="screen-actions">
+              <button
+                id="btn-back-courses"
+                class="btn-primary btn-back"
+                type="button"
+              >
+                Voltar aos cursos
+              </button>
+            </div>
+          </div>
         </section>
       </main>
 

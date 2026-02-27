@@ -14,12 +14,11 @@ const state = {
 const dom = {};
 
 function cacheDom() {
-  dom.appRoot = document.querySelector(".app");
   dom.screenCourses = document.getElementById("screen-courses");
   dom.screenCourseDetail = document.getElementById("screen-course-detail");
   dom.coursesGrid = document.getElementById("courses-grid");
   dom.disciplineList = document.getElementById("discipline-list");
-  dom.btnHome = document.getElementById("btn-home");
+  dom.btnBackCourses = document.getElementById("btn-back-courses");
   dom.detailCourseTitle = document.getElementById("detail-course-title");
   dom.detailCourseSubtitle = document.getElementById("detail-course-subtitle");
 }
@@ -33,7 +32,7 @@ async function init() {
 function setupEvents() {
   const goHome = () => showScreen("courses");
 
-  dom.btnHome?.addEventListener("click", goHome);
+  dom.btnBackCourses?.addEventListener("click", goHome);
 }
 
 async function loadCursos() {
@@ -186,11 +185,6 @@ function showScreen(which) {
 
   dom.screenCourses.classList.toggle("screen--active", isCourses);
   dom.screenCourseDetail.classList.toggle("screen--active", !isCourses);
-
-  // Botão "Voltar" e layout de header só existem de fato nas telas de detalhe
-  if (dom.appRoot) {
-    dom.appRoot.classList.toggle("app--detail", !isCourses);
-  }
 }
 
 // Inicialização
