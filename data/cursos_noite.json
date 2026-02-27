@@ -26,10 +26,25 @@
             "turma": "ADS1N26/1"          },
             {
                 "nome": "Arquiteturas de Computação em Nuvem",
-                "sala": "ONLINE",
+                "sala": "601",
                 "turno": "Noite",
                 "docente": "ERIK FILIPPINI",
-                "turma": "RD4N26/1"          }
+                "turma": "RD4N26/1"          },
+                {
+                    "nome": "Desenvolvimento Gráfico",
+                    "sala": "308",
+                    "turno": "Noite",
+                    "docente": "ALEXANDRE DAVI BORGES",
+                    "turma": "PM1M26/1"
+                  },
+                  {
+          "nome": "Introdução à Cibersegurança",
+          "sala": "ONLINE",
+          "turno": "Manhã",
+          "docente": "ALEX SANDRE PINHEIRO SEVERO",
+          "turma": "SEG1M26/1",
+          "observacao": "Online"
+        }
         ]
       },
       {
