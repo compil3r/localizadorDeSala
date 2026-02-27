@@ -74,6 +74,13 @@ function renderCourses() {
 
   let cursos = [...state.cursos];
 
+  // Se estivermos usando o JSON da manhã, mostramos os cursos em uma única coluna
+  if (CONFIG.dataUrl.includes("manha") && dom.coursesGrid) {
+    dom.coursesGrid.classList.add("course-grid--single-column");
+  } else if (dom.coursesGrid) {
+    dom.coursesGrid.classList.remove("course-grid--single-column");
+  }
+
   if (CONFIG.sortCoursesByName) {
     cursos.sort((a, b) => {
       const nameA = (a.nomeCurto || a.nome || "").toLocaleUpperCase("pt-BR");

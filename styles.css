@@ -186,6 +186,7 @@ button {
     calc(env(safe-area-inset-right, 0px) + var(--safe-area-padding))
     calc(env(safe-area-inset-bottom, 0px) + var(--safe-area-padding))
     calc(env(safe-area-inset-left, 0px) + var(--safe-area-padding));
+  padding-top: 30px;
 }
 
 .app {
@@ -411,6 +412,11 @@ button {
   padding-right: 4px;
   overflow-y: auto;
   padding: 10px;
+}
+
+/* Versão em coluna única – usada para manhã (poucos cursos) */
+.course-grid--single-column {
+  grid-template-columns: 1fr;
 }
 
 /* Em telas muito estreitas, cai pra 1 coluna */
