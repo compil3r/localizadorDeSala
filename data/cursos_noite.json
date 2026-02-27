@@ -129,35 +129,45 @@
         "id": "pm",
         "codigoCurto": "PMM",
         "nome": "Produção Multimídia",
-        "turnoPadrao": "Noite",
+        "turnoPadrao": "Manhã",
         "disciplinas": [
-          {
-            "nome": "Criação de Roteiros",
-            "sala": "309",
-            "turno": "Noite",
-            "docente": "JOAO CARLOS MARTINS DA SILVA",
-            "turma": "PM2N26/1"
-          },
           {
             "nome": "Desenvolvimento Gráfico",
             "sala": "308",
-            "turno": "Noite",
+            "turno": "Manhã",
             "docente": "ALEXANDRE DAVI BORGES",
-            "turma": "PM1N26/1"
+            "turma": "PM1M26/1"
           },
+          {
+            "nome": "Criação de Roteiros",
+            "sala": "801",
+            "turno": "Manhã",
+            "docente": "MARIA HENRIQUETA SATT",
+            "turma": "PM2M26/1"
+          },
+          
           {
             "nome": "Projeto Multimídia I",
             "sala": "102",
-            "turno": "Noite",
+            "turno": "Manhã",
             "docente": "FABRIZZIA BOCACCIO CINEL LACERDA",
-            "turma": "PM4N26/1"
+            "turma": "PM4M26/1"
           },
           {
             "nome": "Tópicos Especiais em Tecnologia e Mercado",
             "sala": "ONLINE",
-            "turno": "Noite",
+            "turno": "Manhã",
             "docente": "FABRICIO AUGUSTO KIPPER",
-            "turma": "PM5N26/1"          }
+            "turma": "PM5M26/1",
+            "observacao": "Online"
+          },
+          {
+            "nome": "História da Moda",
+            "sala": "207",
+            "turno": "Manhã",
+            "docente": "CRISTIANO DA CUNHA PEREIRA",
+            "turma": "DM1M26/1"
+          }
         ]
       },
       {
