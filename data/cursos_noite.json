@@ -134,14 +134,12 @@
           {
             "nome": "Desenvolvimento Gráfico",
             "sala": "308",
-            "turno": "Manhã",
             "docente": "ALEXANDRE DAVI BORGES",
             "turma": "PM1M26/1"
           },
           {
             "nome": "Criação de Roteiros",
             "sala": "801",
-            "turno": "Manhã",
             "docente": "MARIA HENRIQUETA SATT",
             "turma": "PM2M26/1"
           },
@@ -149,22 +147,26 @@
           {
             "nome": "Projeto Multimídia I",
             "sala": "102",
-            "turno": "Manhã",
             "docente": "FABRIZZIA BOCACCIO CINEL LACERDA",
             "turma": "PM4M26/1"
           },
           {
             "nome": "Tópicos Especiais em Tecnologia e Mercado",
             "sala": "ONLINE",
-            "turno": "Manhã",
             "docente": "FABRICIO AUGUSTO KIPPER",
             "turma": "PM5M26/1",
             "observacao": "Online"
           },
           {
-            "nome": "História da Moda",
-            "sala": "207",
-            "turno": "Manhã",
+            "nome": "Mercados Internacionais e Negócios",
+            "sala": "ONLINE",
+            "docente": "JACQUELINE ZAPP",
+            "turma": "PG3N26/1C",
+            "observacao": "Online"
+          },
+          {
+            "nome": "Design: Teoria e História",
+            "sala": "Online",
             "docente": "CRISTIANO DA CUNHA PEREIRA",
             "turma": "DM1M26/1"
           }
