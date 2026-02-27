@@ -34,6 +34,22 @@
           "turno": "Manhã",
           "docente": "RAFAEL DE JESUS REHM",
           "turma": "ADS1M26/1"
+        },
+
+        {
+          "nome": "Introdução à Cibersegurança",
+          "sala": "ONLINE",
+          "turno": "Manhã",
+          "docente": "ALEX SANDRE PINHEIRO SEVERO",
+          "turma": "SEG1M26/1",
+          "observacao": "Online"
+        },
+        {
+          "nome": "Fundamentos de Computação em Nuvem",
+          "sala": "312",
+          "turno": "Manhã",
+          "docente": "RAFAEL GASTAO COIMBRA FERREIRA",
+          "turma": "RD4M26/1"
         }
       ]
     },
@@ -99,37 +115,6 @@
           "turno": "Manhã",
           "docente": "FABRICIO AUGUSTO KIPPER",
           "turma": "PM5M26/1",
-          "observacao": "Online"
-        }
-      ]
-    },
-    {
-      "id": "rd",
-      "codigoCurto": "Redes",
-      "nome": "Redes de Computadores",
-      "turnoPadrao": "Manhã",
-      "disciplinas": [
-        {
-          "nome": "Fundamentos de Computação em Nuvem",
-          "sala": "312",
-          "turno": "Manhã",
-          "docente": "RAFAEL GASTAO COIMBRA FERREIRA",
-          "turma": "RD4M26/1"
-        }
-      ]
-    },
-    {
-      "id": "seg",
-      "codigoCurto": "Segurança",
-      "nome": "Segurança Cibernética",
-      "turnoPadrao": "Manhã",
-      "disciplinas": [
-        {
-          "nome": "Introdução à Cibersegurança",
-          "sala": "ONLINE",
-          "turno": "Manhã",
-          "docente": "ALEX SANDRE PINHEIRO SEVERO",
-          "turma": "SEG1M26/1",
           "observacao": "Online"
         }
       ]
