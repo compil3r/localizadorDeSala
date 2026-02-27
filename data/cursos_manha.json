@@ -96,13 +96,6 @@
       "turnoPadrao": "Manhã",
       "disciplinas": [
         {
-          "nome": "Criação de Roteiros",
-          "sala": "801",
-          "turno": "Manhã",
-          "docente": "FABRIZZIA BOCACCIO CINEL LACERDA",
-          "turma": "PM2M26/1"
-        },
-        {
           "nome": "Desenvolvimento Gráfico",
           "sala": "308",
           "turno": "Manhã",
@@ -110,10 +103,18 @@
           "turma": "PM1M26/1"
         },
         {
+          "nome": "Criação de Roteiros",
+          "sala": "801",
+          "turno": "Manhã",
+          "docente": "MARIA HENRIQUETA SATT",
+          "turma": "PM2M26/1"
+        },
+        
+        {
           "nome": "Projeto Multimídia I",
           "sala": "102",
           "turno": "Manhã",
-          "docente": "MARIA HENRIQUETA SATT",
+          "docente": "FABRIZZIA BOCACCIO CINEL LACERDA",
           "turma": "PM4M26/1"
         },
         {
