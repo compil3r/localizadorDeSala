@@ -2,7 +2,7 @@
 const CONFIG = {
   sortCoursesByName: true,
   sortDisciplinesByName: true,
-  dataUrl: "./data/cursos_manha.json",
+  dataUrl: "./data/cursos_noite.json",
 };
 
 const state = {
@@ -14,6 +14,7 @@ const state = {
 const dom = {};
 
 function cacheDom() {
+  dom.appRoot = document.querySelector(".app");
   dom.screenCourses = document.getElementById("screen-courses");
   dom.screenCourseDetail = document.getElementById("screen-course-detail");
   dom.coursesGrid = document.getElementById("courses-grid");
@@ -186,9 +187,9 @@ function showScreen(which) {
   dom.screenCourses.classList.toggle("screen--active", isCourses);
   dom.screenCourseDetail.classList.toggle("screen--active", !isCourses);
 
-  // Botão "Início" só aparece quando NÃO estamos na tela inicial
-  if (dom.btnHome) {
-    dom.btnHome.style.visibility = isCourses ? "hidden" : "visible";
+  // Botão "Voltar" e layout de header só existem de fato nas telas de detalhe
+  if (dom.appRoot) {
+    dom.appRoot.classList.toggle("app--detail", !isCourses);
   }
 }
 

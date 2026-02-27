@@ -1,0 +1,204 @@
+{
+    "cursos": [
+      {
+        "id": "ads",
+        "codigoCurto": "ADS",
+        "nome": "Análise e Desenvolvimento de Sistemas",
+        "turnoPadrao": "Noite",
+        "disciplinas": [
+          {
+            "nome": "Algoritmos e Estruturas de Dados I",
+          "sala": "603",
+            "turno": "Noite",
+            "docente": "ADALTO SELAU SPARREMBERGER",
+            "turma": "ADS2N26/1"          },
+          {
+            "nome": "Algoritmos e Estruturas de Dados II",
+            "sala": "702",
+            "turno": "Noite",
+            "docente": "IVONEI MARQUES",
+            "turma": "ADS4N26/1"          },
+          {
+            "nome": "Sistemas Operacionais",
+          "sala": "701",
+            "turno": "Noite",
+            "docente": "LUCAS ALVES",
+            "turma": "ADS1N26/1"          }
+        ]
+      },
+      {
+        "id": "dm",
+        "codigoCurto": "Moda",
+        "nome": "Design de Moda",
+        "turnoPadrao": "Noite",
+        "disciplinas": [
+          {
+            "nome": "Confecção I",
+            "sala": "208",
+            "turno": "Noite",
+            "docente": "LIVIA ACCIOLY MENEZES DA SILVA",
+            "turma": "DM1N26/1"
+          },
+          {
+            "nome": "Criação de Produtos de Moda",
+            "sala": "503",
+            "turno": "Noite",
+            "docente": "MARIOARA GRALHA FEIJO",
+            "turma": "DM3N26/1"
+          },
+          {
+            "nome": "Design: Teoria e História",
+            "sala": "305",
+            "turno": "Noite",
+            "docente": "LUCIANA AMARAL",
+            "turma": "DM2N26/1"
+          }
+        ]
+      },
+      {
+        "id": "ia",
+        "codigoCurto": "IA",
+        "nome": "Inteligência Artificial e Ciência de Dados",
+        "turnoPadrao": "Noite",
+        "disciplinas": [
+          {
+            "nome": "Estruturas de Dados para Ciência de Dados",
+          "sala": "604",
+            "turno": "Noite",
+            "docente": "VITOR HUGO DA SILVA LOPES",
+            "turma": "IA1N26/1"          },
+          {
+            "nome": "Probabilidade e Estatística I",
+            "sala": "604",
+            "turno": "Noite",
+            "docente": "ALINE BRUM OTTES",
+            "turma": "IA2N26/1"
+          }
+        ]
+      },
+      {
+        "id": "mk",
+        "codigoCurto": "MKT",
+        "nome": "Marketing",
+        "turnoPadrao": "Noite",
+        "disciplinas": [
+          {
+            "nome": "Gestão de Vendas",
+            "sala": "ONLINE",
+            "turno": "Noite",
+            "docente": "ROBERTO DOS SANTOS OLIVEIRA",
+            "turma": "MK1N26/1"          },
+          {
+            "nome": "Inovação e Desenvolvimento de Produtos",
+            "sala": "205",
+            "turno": "Noite",
+            "docente": "CLAUDIA CECILIA SERAFINI MALLMANN",
+            "turma": "MK4N26/1"
+          },
+          {
+            "nome": "Marketing do Varejo e Serviços",
+            "sala": "304",
+            "turno": "Noite",
+            "docente": "DEBORA FERREIRA COELHO",
+            "turma": "MK3N26/1"
+          }
+        ]
+      },
+      {
+        "id": "pg",
+        "codigoCurto": "PG",
+        "nome": "Processos Gerenciais",
+        "turnoPadrao": "Noite",
+        "disciplinas": [
+          {
+            "nome": "Business Intelligence e Análise Preditiva",
+            "sala": "303",
+            "turno": "Noite",
+            "docente": "MAGDA LEYSER",
+            "turma": "PG4N26/1"
+          },
+          {
+            "nome": "Cultura e Clima Organizacional",
+            "sala": "505",
+            "turno": "Noite",
+            "docente": "NEREIDA VIANNA",
+            "turma": "PG1N26/1"          }
+        ]
+      },
+      {
+        "id": "pm",
+        "codigoCurto": "PMM",
+        "nome": "Produção Multimídia",
+        "turnoPadrao": "Noite",
+        "disciplinas": [
+          {
+            "nome": "Criação de Roteiros",
+            "sala": "309",
+            "turno": "Noite",
+            "docente": "JOAO CARLOS MARTINS DA SILVA",
+            "turma": "PM2N26/1"
+          },
+          {
+            "nome": "Desenvolvimento Gráfico",
+            "sala": "308",
+            "turno": "Noite",
+            "docente": "ALEXANDRE DAVI BORGES",
+            "turma": "PM1N26/1"
+          },
+          {
+            "nome": "Projeto Multimídia I",
+            "sala": "102",
+            "turno": "Noite",
+            "docente": "FABRIZZIA BOCACCIO CINEL LACERDA",
+            "turma": "PM4N26/1"
+          },
+          {
+            "nome": "Tópicos Especiais em Tecnologia e Mercado",
+            "sala": "ONLINE",
+            "turno": "Noite",
+            "docente": "FABRICIO AUGUSTO KIPPER",
+            "turma": "PM5N26/1"          }
+        ]
+      },
+      {
+        "id": "rd",
+        "codigoCurto": "Redes",
+        "nome": "Redes de Computadores",
+        "turnoPadrao": "Noite",
+        "disciplinas": [
+          {
+            "nome": "Protocolos de Roteamento",
+            "sala": "312",
+            "turno": "Noite",
+            "docente": "JULIO CARNEVALE DE ALMEIDA",
+            "turma": "RD2N26/1"          },
+          {
+            "nome": "Fundamentos de Computação em Nuvem",
+            "sala": "ONLINE",
+            "turno": "Noite",
+            "docente": "RAFAEL GASTAO COIMBRA FERREIRA",
+            "turma": "RD4N26/1"          },
+          {
+            "nome": "Roteamento Avançado",
+            "sala": "704",
+            "turno": "Noite",
+            "docente": "MARCIO POHLMANN",
+            "turma": "RD1N26/1A"          }
+        ]
+      },
+      {
+        "id": "seg",
+        "codigoCurto": "SEGURANÇA",
+        "nome": "Segurança Cibernética",
+        "turnoPadrao": "Noite",
+        "disciplinas": [
+          {
+            "nome": "Segurança Ofensiva",
+            "sala": "502",
+            "turno": "Noite",
+            "docente": "RICARDO BECKER",
+            "turma": "SEG2N26/1"          }
+        ]
+      }
+    ]
+  }
