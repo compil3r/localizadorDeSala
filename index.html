@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>START UniSenac - Localizador de Salas</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <!-- Fontes com vibe tech/arcade, mas legíveis -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Press+Start+2P&family=Rajdhani:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-background">
+      <div class="app-background__gradient"></div>
+      <div class="app-background__grid"></div>
+      <div class="app-background__shapes">
+        <div class="shape shape--triangle"></div>
+        <div class="shape shape--line"></div>
+        <div class="shape shape--circle"></div>
+      </div>
+    </div>
+
+    <div class="app safe-area">
+      <header class="kiosk-header">
+
+        <div class="kiosk-header__titles">
+          <h1 class="app-title">START UNISENAC</h1>
+          <p class="app-subtitle">aprender fazendo muda tudo</p>
+        </div>
+
+        <button id="btn-home" class="btn-secondary btn-home" type="button">
+          Voltar
+        </button>
+      </header>
+
+      <main class="kiosk-main">
+        <!-- Tela 1: Cursos -->
+        <section
+          id="screen-courses"
+          class="screen screen--active screen--courses"
+          aria-label="Lista de cursos"
+        >
+          <h2 class="screen-title">Escolha seu curso</h2>
+          <p class="screen-description">
+            Toque no curso para ver as disciplinas e salas.
+          </p>
+
+          <div
+            id="courses-grid"
+            class="course-grid"
+            aria-live="polite"
+          ></div>
+        </section>
+
+        <!-- Tela 2: Disciplinas e Salas -->
+        <section
+          id="screen-course-detail"
+          class="screen"
+          aria-label="Disciplinas do curso selecionado"
+        >
+          <div class="screen-top">
+            <h2 class="screen-title screen-title--detail" id="detail-course-title"></h2>
+            <p class="screen-description" id="detail-course-subtitle">
+              Consulte abaixo as disciplinas e salas deste curso.
+            </p>
+          </div>
+
+          <div
+            id="discipline-list"
+            class="discipline-list"
+            aria-live="polite"
+          ></div>
+        </section>
+      </main>
+
+      <footer class="kiosk-footer">
+        <div class="kiosk-footer__logos">
+          <div class="logo logo--senac" aria-label="Logo Senac">
+          <div
+            class="logo logo--sistema-comercio"
+            aria-label="Logo Sistema Comércio"
+          >
+            <img
+              src="./logouni.png"
+              alt="Sistema Comércio"
+              loading="lazy"
+              onerror="this.style.display='none'"
+            />
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="./script.js" defer></script>
+  </body>
+  </html>
+

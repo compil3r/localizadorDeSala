@@ -1,0 +1,138 @@
+{
+  "cursos": [
+    {
+      "id": "ads",
+      "codigoCurto": "ADS",
+      "nome": "Análise e Desenvolvimento de Sistemas",
+      "turnoPadrao": "Manhã",
+      "disciplinas": [
+        {
+          "nome": "Banco de Dados II",
+          "sala": "504",
+          "turno": "Manhã",
+          "docente": "LUIS FERNANDES VAZ",
+          "turma": "ADS3M26/1"
+        },
+        {
+          "nome": "Engenharia de Software I",
+          "sala": "ONLINE",
+          "turno": "Manhã",
+          "docente": "ROBERTO ZANONI",
+          "turma": "ADS2M26/1",
+          "observacao": "Online"
+        },
+        {
+          "nome": "Inteligência Artificial",
+          "sala": "701",
+          "turno": "Manhã",
+          "docente": "VITOR HUGO DA SILVA LOPES",
+          "turma": "ADS5M26/1"
+        },
+        {
+          "nome": "Sistemas Operacionais",
+          "sala": "601",
+          "turno": "Manhã",
+          "docente": "RAFAEL DE JESUS REHM",
+          "turma": "ADS1M26/1"
+        }
+      ]
+    },
+    {
+      "id": "dm",
+      "codigoCurto": "Moda",
+      "nome": "Design de Moda",
+      "turnoPadrao": "Manhã",
+      "disciplinas": [
+        {
+          "nome": "Confecção III",
+          "sala": "208",
+          "turno": "Manhã",
+          "docente": "LIVIA ACCIOLY MENEZES DA SILVA",
+          "turma": "DM3M26/1"
+        },
+        {
+          "nome": "Desenho de Moda",
+          "sala": "206",
+          "turno": "Manhã",
+          "docente": "MARIOARA GRALHA FEIJO",
+          "turma": "DM2M26/1"
+        },
+        {
+          "nome": "História da Moda",
+          "sala": "307",
+          "turno": "Manhã",
+          "docente": "LUCIANA AMARAL",
+          "turma": "DM1M26/1"
+        }
+      ]
+    },
+    {
+      "id": "pm",
+      "codigoCurto": "PMM",
+      "nome": "Produção Multimídia",
+      "turnoPadrao": "Manhã",
+      "disciplinas": [
+        {
+          "nome": "Criação de Roteiros",
+          "sala": "309",
+          "turno": "Manhã",
+          "docente": "JOAO CARLOS MARTINS DA SILVA",
+          "turma": "PM2M26/1"
+        },
+        {
+          "nome": "Desenvolvimento Gráfico",
+          "sala": "308",
+          "turno": "Manhã",
+          "docente": "ALEXANDRE DAVI BORGES",
+          "turma": "PM1M26/1"
+        },
+        {
+          "nome": "Projeto Multimídia I",
+          "sala": "102",
+          "turno": "Manhã",
+          "docente": "FABRIZZIA BOCACCIO CINEL LACERDA",
+          "turma": "PM4M26/1"
+        },
+        {
+          "nome": "Tópicos Especiais em Tecnologia e Mercado",
+          "sala": "ONLINE",
+          "turno": "Manhã",
+          "docente": "FABRICIO AUGUSTO KIPPER",
+          "turma": "PM5M26/1",
+          "observacao": "Online"
+        }
+      ]
+    },
+    {
+      "id": "rd",
+      "codigoCurto": "Redes",
+      "nome": "Redes de Computadores",
+      "turnoPadrao": "Manhã",
+      "disciplinas": [
+        {
+          "nome": "Fundamentos de Computação em Nuvem",
+          "sala": "312",
+          "turno": "Manhã",
+          "docente": "RAFAEL GASTAO COIMBRA FERREIRA",
+          "turma": "RD4M26/1"
+        }
+      ]
+    },
+    {
+      "id": "seg",
+      "codigoCurto": "Segurança",
+      "nome": "Segurança Cibernética",
+      "turnoPadrao": "Manhã",
+      "disciplinas": [
+        {
+          "nome": "Introdução à Cibersegurança",
+          "sala": "ONLINE",
+          "turno": "Manhã",
+          "docente": "ALEX SANDRE PINHEIRO SEVERO",
+          "turma": "SEG1M26/1",
+          "observacao": "Online"
+        }
+      ]
+    }
+  ]
+}
