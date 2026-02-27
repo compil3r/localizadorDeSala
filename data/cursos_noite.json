@@ -69,10 +69,16 @@
           },
           {
             "nome": "Design: Teoria e História",
-            "sala": "305",
+            "sala": "Online",
             "turno": "Noite",
-            "docente": "LUCIANA AMARAL",
+            "docente": "CRISTIANO CUNHA",
             "turma": "DM2N26/1"
+          },
+          {
+            "nome": "Desenvolvimento Gráfico",
+            "sala": "308",
+            "docente": "ALEXANDRE DAVI BORGES",
+            "turma": "PM1M26/1"
           }
         ]
       },
