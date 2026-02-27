@@ -79,6 +79,13 @@
           "turno": "Manhã",
           "docente": "CRISTIANO DA CUNHA PEREIRA",
           "turma": "DM1M26/1"
+        },
+        {
+          "nome": "Desenvolvimento Gráfico",
+          "sala": "308",
+          "turno": "Manhã",
+          "docente": "ALEXANDRE DAVI BORGES",
+          "turma": "PM1M26/1"
         }
       ]
     },
@@ -106,7 +113,7 @@
           "nome": "Projeto Multimídia I",
           "sala": "102",
           "turno": "Manhã",
-          "docente": "FABRIZZIA BOCACCIO CINEL LACERDA",
+          "docente": "MARIA HENRIQUETA SATT",
           "turma": "PM4M26/1"
         },
         {
@@ -116,6 +123,13 @@
           "docente": "FABRICIO AUGUSTO KIPPER",
           "turma": "PM5M26/1",
           "observacao": "Online"
+        },
+        {
+          "nome": "História da Moda",
+          "sala": "207",
+          "turno": "Manhã",
+          "docente": "CRISTIANO DA CUNHA PEREIRA",
+          "turma": "DM1M26/1"
         }
       ]
     }
