@@ -19,8 +19,6 @@ function cacheDom() {
   dom.coursesGrid = document.getElementById("courses-grid");
   dom.disciplineList = document.getElementById("discipline-list");
   dom.btnHome = document.getElementById("btn-home");
-  dom.breadcrumbHome = document.getElementById("breadcrumb-home");
-  dom.breadcrumbCourseName = document.getElementById("breadcrumb-course-name");
   dom.detailCourseTitle = document.getElementById("detail-course-title");
   dom.detailCourseSubtitle = document.getElementById("detail-course-subtitle");
 }
@@ -35,7 +33,6 @@ function setupEvents() {
   const goHome = () => showScreen("courses");
 
   dom.btnHome?.addEventListener("click", goHome);
-  dom.breadcrumbHome?.addEventListener("click", goHome);
 }
 
 async function loadCursos() {
@@ -127,9 +124,6 @@ function openCourse(courseId) {
   state.selectedCourseId = courseId;
 
   const courseName = curso.nome || curso.codigoCurto || curso.sigla || "Curso";
-  if (dom.breadcrumbCourseName) {
-    dom.breadcrumbCourseName.textContent = courseName;
-  }
   if (dom.detailCourseTitle) {
     dom.detailCourseTitle.textContent = courseName;
   }

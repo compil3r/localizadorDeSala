@@ -354,6 +354,12 @@ button {
   text-transform: uppercase;
 }
 
+.screen-title--detail {
+  /* Título da tela de disciplinas um pouco mais compacto,
+     sem box extra ao redor para economizar espaço vertical */
+  margin-bottom: 6px;
+}
+
 .screen-description {
   margin: 0 0 18px;
   color: var(--color-text-muted);
@@ -622,6 +628,7 @@ button {
   gap: 16px;
   font-size: 0.9rem;
   color: var(--color-text-soft);
+  margin-top: 8px;
 }
 
 .kiosk-footer__logos {
