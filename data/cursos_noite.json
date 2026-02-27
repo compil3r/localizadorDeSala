@@ -23,7 +23,13 @@
           "sala": "701",
             "turno": "Noite",
             "docente": "LUCAS ALVES",
-            "turma": "ADS1N26/1"          }
+            "turma": "ADS1N26/1"          },
+            {
+                "nome": "Arquiteturas de Computação em Nuvem",
+                "sala": "ONLINE",
+                "turno": "Noite",
+                "docente": "ERIK FILIPPINI",
+                "turma": "RD4N26/1"          }
         ]
       },
       {
