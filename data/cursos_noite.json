@@ -8,7 +8,7 @@
         "disciplinas": [
           {
             "nome": "Algoritmos e Estruturas de Dados I",
-          "sala": "603",
+            "sala": "603",
             "turno": "Noite",
             "docente": "ADALTO SELAU SPARREMBERGER",
             "turma": "ADS2N26/1"          },
@@ -20,7 +20,7 @@
             "turma": "ADS4N26/1"          },
           {
             "nome": "Sistemas Operacionais",
-          "sala": "701",
+            "sala": "701",
             "turno": "Noite",
             "docente": "LUCAS ALVES",
             "turma": "ADS1N26/1"          },

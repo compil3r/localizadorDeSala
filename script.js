@@ -2,7 +2,7 @@
 const CONFIG = {
   sortCoursesByName: true,
   sortDisciplinesByName: true,
-  dataUrl: "./data/cursos_manha.json",
+  dataUrl: "./data/cursos_noite.json",
 };
 
 const state = {
