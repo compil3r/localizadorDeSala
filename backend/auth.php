@@ -28,7 +28,7 @@ function auth_current_user(): ?array
 function auth_require_login(): void
 {
     if (!auth_current_user()) {
-        header('Location: /backend/admin/login.php');
+        header('Location: /salas/backend/admin/login.php');
         exit;
     }
 }

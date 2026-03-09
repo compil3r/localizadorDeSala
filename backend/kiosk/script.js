@@ -11,7 +11,7 @@ const CONFIG = {
   // API do backend (auto-detecta: /kiosk/ usa ../api; raiz usa /backend/api)
   apiUrl: (() => {
     const p = location.pathname;
-    return p.includes("/kiosk") ? "../api/kiosk.php" : "/backend/api/kiosk.php";
+    return p.includes("/kiosk") ? "../api/kiosk.php" : "/salas/backend/api/kiosk.php";
   })(),
   reloadIntervalMs: 10 * 60 * 1000, // 10 minutos
 };

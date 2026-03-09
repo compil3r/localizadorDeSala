@@ -7,7 +7,7 @@ session_start();
 if (!empty($_GET['logout'])) {
     $_SESSION = [];
     session_destroy();
-    header('Location: /backend/admin/login.php');
+    header('Location: /salas/backend/admin/login.php');
     exit;
 }
 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Credenciais inválidas.';
         } else {
             $_SESSION['user_id'] = (int) $user['id'];
-            header('Location: /backend/admin/index.php');
+            header('Location: /salas/backend/admin/index.php');
             exit;
         }
     }
