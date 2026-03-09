@@ -17,12 +17,32 @@ if (file_exists($envFile) && is_readable($envFile)) {
     }
 }
 
-// KIOSK_BASE_PATH: pasta do projeto no servidor (ex: /salas se em exemplo.com/salas/)
+// KIOSK_BASE_PATH: subpasta do projeto (ex: /salas se em exemplo.com/salas/). Vazio = raiz do site.
 $basePath = rtrim(getenv('KIOSK_BASE_PATH') ?: '', '/');
-// $basePath = '/salas';
 if (!defined('APP_BASE_PATH')) {
     define('APP_BASE_PATH', $basePath);
 }
+
+// KIOSK_DOC_ROOT: 'backend' = doc root é a pasta backend (dev: php -S -t .)
+//                 'project' = doc root é a raiz do projeto (VPS: apontado pra salas/)
+$docRoot = getenv('KIOSK_DOC_ROOT') ?: 'project';
+
+// Caminhos web
+if ($basePath) {
+    // Projeto em subpasta: /salas/backend/admin, /salas/backend/kiosk
+    $adminBase = $basePath . '/backend/admin';
+    $kioskBase = $basePath . '/backend/kiosk';
+} elseif ($docRoot === 'backend') {
+    // Dev local: doc root = backend → /admin, /kiosk
+    $adminBase = '/admin';
+    $kioskBase = '/kiosk';
+} else {
+    // VPS: doc root = projeto (salas/) → /backend/admin, /backend/kiosk
+    $adminBase = '/backend/admin';
+    $kioskBase = '/backend/kiosk';
+}
+if (!defined('APP_ADMIN_BASE')) define('APP_ADMIN_BASE', $adminBase);
+if (!defined('APP_KIOSK_BASE')) define('APP_KIOSK_BASE', $kioskBase);
 
 return [
     'base_path' => $basePath,

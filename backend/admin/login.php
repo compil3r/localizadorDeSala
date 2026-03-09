@@ -1,15 +1,16 @@
 <?php
 
+require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../db.php';
 
 session_start();
 
-$base = defined('APP_BASE_PATH') ? APP_BASE_PATH : '';
+$adminBase = defined('APP_ADMIN_BASE') ? APP_ADMIN_BASE : '/admin';
 
 if (!empty($_GET['logout'])) {
     $_SESSION = [];
     session_destroy();
-    header('Location: ' . $base . '/backend/admin/login.php');
+    header('Location: ' . $adminBase . '/login.php');
     exit;
 }
 
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Credenciais inválidas.';
         } else {
             $_SESSION['user_id'] = (int) $user['id'];
-            header('Location: ' . $base . '/backend/admin/index.php');
+            header('Location: ' . $adminBase . '/index.php');
             exit;
         }
     }
@@ -49,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     >
-    <link rel="stylesheet" href="<?= $base ?>/backend/admin/admin.css">
+    <link rel="stylesheet" href="<?= $adminBase ?>/admin.css">
 </head>
 <body class="auth-body d-flex align-items-center justify-content-center min-vh-100">
     <div class="card shadow auth-card">

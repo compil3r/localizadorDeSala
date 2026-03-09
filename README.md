@@ -10,7 +10,8 @@ O kiosk consome dados da API PHP do backend, que filtra cursos e disciplinas pel
 
 1. Configure o banco de dados: copie `.env.example` para `.env` na raiz do projeto, ajuste os valores e execute o `schema.sql`.
 
-2. Rode o servidor PHP a partir da pasta `backend`:
+2. Para **dev local**, rode a partir da pasta `backend` e defina no `.env`:
+   `KIOSK_DOC_ROOT=backend`
 
    ```bash
    cd backend
@@ -51,6 +52,10 @@ $basePath = '/salas';  // antes da linha que usa getenv
 ```
 
 Assim, links, redirects e a API usam o caminho correto automaticamente.
+
+### Deploy em VPS (doc root = pasta salas/)
+
+Quando o vhost aponta para a pasta `salas/` (raiz do projeto), é o cenário padrão. Deixe `KIOSK_BASE_PATH` vazio no `.env` — os caminhos serão `/backend/admin/`, `/backend/kiosk/` automaticamente.
 
 ### Uso em flipchart/kiosk
 

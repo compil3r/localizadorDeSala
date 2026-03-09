@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/db.php';
 
 session_start();
@@ -28,8 +29,8 @@ function auth_current_user(): ?array
 function auth_require_login(): void
 {
     if (!auth_current_user()) {
-        $base = defined('APP_BASE_PATH') ? APP_BASE_PATH : '';
-        header('Location: ' . $base . '/backend/admin/login.php');
+        $adminBase = defined('APP_ADMIN_BASE') ? APP_ADMIN_BASE : '/admin';
+        header('Location: ' . $adminBase . '/login.php');
         exit;
     }
 }

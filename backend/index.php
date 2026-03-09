@@ -1,5 +1,5 @@
 <?php
 require_once __DIR__ . '/config.php';
-$base = defined('APP_BASE_PATH') ? APP_BASE_PATH : '';
-header('Location: ' . $base . '/backend/kiosk/');
+$kioskBase = defined('APP_KIOSK_BASE') ? APP_KIOSK_BASE : '/kiosk';
+header('Location: ' . $kioskBase . '/');
 exit;
