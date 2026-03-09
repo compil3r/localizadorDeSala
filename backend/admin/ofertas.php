@@ -55,19 +55,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
         $src = $srcStmt->fetch();
 
         if ($src) {
-            $stmt = $pdo->prepare('
-                INSERT INTO course_offerings (course_id, discipline_id, teacher_id, turno, dia_semana, room, origin_type)
-                VALUES (:course_id, :discipline_id, :teacher_id, :turno, :dia_semana, :room, :origin_type)
+            $dupStmt = $pdo->prepare('
+                SELECT 1 FROM course_offerings
+                WHERE course_id = :course_id
+                  AND discipline_id = :discipline_id
+                  AND teacher_id = :teacher_id
+                  AND turno = :turno
+                  AND dia_semana = :dia_semana
+                LIMIT 1
             ');
-            $stmt->execute([
+            $dupStmt->execute([
                 'course_id'     => $courseId,
                 'discipline_id' => $src['discipline_id'],
                 'teacher_id'    => $src['teacher_id'],
                 'turno'         => $src['turno'],
                 'dia_semana'    => $src['dia_semana'],
-                'room'          => $src['room'],
-                'origin_type'   => $originType,
             ]);
+
+            if ($dupStmt->fetch()) {
+                $_SESSION['oferta_error'] = 'Esta oferta já está incluída neste curso (mesma disciplina, professor, turno e dia).';
+            } else {
+                $stmt = $pdo->prepare('
+                    INSERT INTO course_offerings (course_id, discipline_id, teacher_id, turno, dia_semana, room, origin_type)
+                    VALUES (:course_id, :discipline_id, :teacher_id, :turno, :dia_semana, :room, :origin_type)
+                ');
+                $stmt->execute([
+                    'course_id'     => $courseId,
+                    'discipline_id' => $src['discipline_id'],
+                    'teacher_id'    => $src['teacher_id'],
+                    'turno'         => $src['turno'],
+                    'dia_semana'    => $src['dia_semana'],
+                    'room'          => $src['room'],
+                    'origin_type'   => $originType,
+                ]);
+            }
             header('Location: ofertas.php?course_id=' . $courseId);
             exit;
         }
@@ -160,9 +181,21 @@ $offeringsStmt = $pdo->prepare('
     ORDER BY c.code, d.name, o.turno, t.name
 ');
 $offeringsStmt->execute(['course_id' => $courseId]);
-$allOfferings = $offeringsStmt->fetchAll();
+$allOfferingsRaw = $offeringsStmt->fetchAll();
+
+$alreadyInCourse = [];
+foreach ($offerings as $o) {
+    $key = $o['discipline_id'] . '|' . $o['teacher_id'] . '|' . $o['turno'] . '|' . $o['dia_semana'];
+    $alreadyInCourse[$key] = true;
+}
+$allOfferings = array_filter($allOfferingsRaw, function ($o) use ($alreadyInCourse) {
+    $key = $o['discipline_id'] . '|' . $o['teacher_id'] . '|' . $o['turno'] . '|' . ($o['dia_semana'] ?? '');
+    return !isset($alreadyInCourse[$key]);
+});
 
 $navCurrent = 'oferta';
+$ofertaError = $_SESSION['oferta_error'] ?? null;
+if (isset($_SESSION['oferta_error'])) unset($_SESSION['oferta_error']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -189,6 +222,13 @@ $navCurrent = 'oferta';
             <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-open-offering">Nova oferta</button>
         </div>
     </div>
+
+    <?php if ($ofertaError): ?>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <?= htmlspecialchars($ofertaError) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    <?php endif; ?>
 
     <div class="page-content">
     <table class="table table-hover align-middle bg-white">
