@@ -8,7 +8,7 @@ O kiosk consome dados da API PHP do backend, que filtra cursos e disciplinas pel
 
 ### Com backend PHP (recomendado)
 
-1. Configure o banco de dados em `backend/config.php` e execute o `schema.sql`.
+1. Configure o banco de dados: copie `.env.example` para `.env` na raiz do projeto, ajuste os valores e execute o `schema.sql`.
 
 2. Rode o servidor PHP a partir da pasta `backend`:
 
