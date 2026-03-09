@@ -31,3 +31,12 @@ body {
   color: #495057;
 }
 
+th.sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+th.sortable:hover {
+  background: #e9ecef;
+}
+

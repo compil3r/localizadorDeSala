@@ -182,7 +182,6 @@ $navCurrent = 'oferta';
     <?php require __DIR__ . '/header.php'; ?>
     <div class="d-flex justify-content-between align-items-center mb-4 page-header">
         <div>
-            <p class="mb-1"><a href="index.php">&larr; Oferta 2026/1</a></p>
             <h1 class="h4 mb-1">Ofertas – <?= htmlspecialchars($course['name']) ?> (<?= htmlspecialchars($course['code']) ?>)</h1>
             <p class="mb-0 text-muted">Inclui disciplinas próprias, optativas e compartilhadas deste curso.</p>
         </div>
@@ -198,7 +197,7 @@ $navCurrent = 'oferta';
             <th>Disciplina</th>
             <th>Professor</th>
             <th>Turno</th>
-            <th>Dia</th>
+            <th class="sortable" data-sort="dia" role="button" tabindex="0">Dia <span class="sort-indicator" aria-hidden="true"></span></th>
             <th>Sala</th>
             <th>Origem</th>
             <th></th>
@@ -207,7 +206,7 @@ $navCurrent = 'oferta';
         <tbody>
         <?php foreach ($offerings as $o): ?>
             <?php $otherCount = (int) ($o['other_courses_count'] ?? 0); ?>
-            <tr>
+            <tr data-dia="<?= htmlspecialchars($o['dia_semana'] ?? '') ?>">
                 <td><?= htmlspecialchars($o['disciplina']) ?></td>
                 <td><?= htmlspecialchars($o['professor']) ?></td>
                 <td><?= htmlspecialchars($o['turno']) ?></td>
@@ -322,6 +321,27 @@ $navCurrent = 'oferta';
             crossorigin="anonymous"></script>
     <script>
         (function () {
+            const DIA_ORDEM = { SEG: 1, TER: 2, QUA: 3, QUI: 4, SEX: 5, SAB: 6 };
+            const tbody = document.querySelector('.page-content table tbody');
+            const thDia = document.querySelector('th[data-sort="dia"]');
+            let sortDiaAsc = true;
+
+            function sortByDia() {
+                const rows = Array.from(tbody.querySelectorAll('tr[data-dia]'));
+                const fallback = (v) => DIA_ORDEM[v] ?? 99;
+                rows.sort((a, b) => {
+                    const va = fallback(a.dataset.dia);
+                    const vb = fallback(b.dataset.dia);
+                    return sortDiaAsc ? va - vb : vb - va;
+                });
+                rows.forEach(r => tbody.appendChild(r));
+                thDia.querySelector('.sort-indicator').textContent = sortDiaAsc ? ' ▲' : ' ▼';
+                sortDiaAsc = !sortDiaAsc;
+            }
+
+            thDia?.addEventListener('click', sortByDia);
+            thDia?.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); sortByDia(); } });
+            sortByDia(); // ordem inicial por dia
             const modalNew = new bootstrap.Modal(document.getElementById('modal-offering-backdrop'));
             const modalDeleteAll = new bootstrap.Modal(document.getElementById('modal-delete-all'));
             const formDelete = document.getElementById('form-delete-offering');
