@@ -444,7 +444,7 @@ button {
 }
 
 .logo img {
-  max-height: 48px;
+  max-height: 36px;
   object-fit: contain;
   opacity: 0.7;
 }

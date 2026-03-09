@@ -19,14 +19,13 @@
     <div class="app safe-area">
       <header class="kiosk-header">
         <div class="kiosk-header__titles">
-          <h1 class="app-title">Qual a minha sala?</h1>
+          <h1 class="app-title">SALAS UNISENAC</h1>
           <p class="app-subtitle">aprender fazendo muda tudo</p>
           <hr class="kiosk-header__divider" />
         </div>
       </header>
 
       <main class="kiosk-main">
-        <!-- Tela 1: Cursos -->
         <section
           id="screen-courses"
           class="screen screen--active screen--courses"
@@ -35,18 +34,12 @@
           <div class="screen-body">
             <h2 class="screen-title">Escolha seu curso</h2>
             <p class="screen-description">
-              Toque no curso para ver o professor e a sala.
+              Toque no curso para ver as disciplinas e salas.
             </p>
-
-            <div
-              id="courses-grid"
-              class="course-grid"
-              aria-live="polite"
-            ></div>
+            <div id="courses-grid" class="course-grid" aria-live="polite"></div>
           </div>
         </section>
 
-        <!-- Tela 2: Disciplinas e Salas -->
         <section
           id="screen-course-detail"
           class="screen"
@@ -59,19 +52,9 @@
                 Consulte abaixo as disciplinas e salas deste curso.
               </p>
             </div>
-
-            <div
-              id="discipline-list"
-              class="discipline-list"
-              aria-live="polite"
-            ></div>
-
+            <div id="discipline-list" class="discipline-list" aria-live="polite"></div>
             <div class="screen-actions">
-              <button
-                id="btn-back-courses"
-                class="btn-primary btn-back"
-                type="button"
-              >
+              <button id="btn-back-courses" class="btn-primary btn-back" type="button">
                 Voltar aos cursos
               </button>
             </div>
@@ -81,13 +64,10 @@
 
       <footer class="kiosk-footer">
         <div class="kiosk-footer__logos">
-          <div class="logo logo--senac" aria-label="Logo Senac">
-          <div
-            class="logo logo--sistema-comercio"
-            aria-label="Logo Sistema Comércio"
-          >
+          <div class="logo logo--senac" aria-label="Logo Senac"></div>
+          <div class="logo logo--sistema-comercio" aria-label="Logo Sistema Comércio">
             <img
-              src="./logouni.png"
+              src="../logouni.png"
               alt="Sistema Comércio"
               loading="lazy"
               onerror="this.style.display='none'"
@@ -99,5 +79,4 @@
 
     <script src="./script.js" defer></script>
   </body>
-  </html>
-
+</html>

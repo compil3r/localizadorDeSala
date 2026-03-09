@@ -1,39 +1,45 @@
-# START UniSenac – Localizador de Salas (kiosk)
+# Salas UniSenac – Localizador de Salas (kiosk)
 
-Site simples em HTML/CSS/JS para rodar em modo kiosk (touch) em um display vertical, inspirado no visual neon/retro do evento START UniSenac.
+Site simples em HTML/CSS/JS para rodar em modo kiosk (touch) em um display vertical, inspirado no visual neon/retro do evento Salas UniSenac.
 
 ## Como rodar
 
-> Importante: o arquivo `data/cursos.json` é carregado via `fetch`, então é recomendado rodar o projeto em um servidor local simples (em vez de abrir o `index.html` direto no navegador).
+O kiosk consome dados da API PHP do backend, que filtra cursos e disciplinas pelo **horário atual** e **dia da semana**.
 
-1. Abra esta pasta no terminal:
+### Com backend PHP (recomendado)
+
+1. Configure o banco de dados em `backend/config.php` e execute o `schema.sql`.
+
+2. Rode o servidor PHP a partir da pasta `backend`:
+
+   ```bash
+   cd backend
+   php -S localhost:8001 -t .
+   ```
+
+3. Acesse no navegador:
+
+   - **Kiosk:** `http://localhost:8001/kiosk/` (ou `http://localhost:8001` – redireciona para o kiosk)
+   - **Painel admin:** `http://localhost:8001/admin/`
+
+### Sem backend (apenas frontend)
+
+Se quiser rodar só o frontend (usando JSON estático):
+
+1. Rode um servidor da **raiz do projeto** (para que `/backend/api/kiosk.php` funcione):
 
    ```bash
    cd /Users/vitorhugo/Projetos/localizadorDeSala
+   php -S localhost:8001
    ```
 
-2. Rode um servidor estático simples (escolha uma das opções):
+2. Ou use Python/Node na raiz e ajuste `CONFIG.apiUrl` em `script.js` para apontar ao backend.
 
-   - Python 3:
+### Uso em flipchart/kiosk
 
-     ```bash
-     python -m http.server 8000
-     ```
-
-   - Node (npx serve, se tiver instalado):
-
-     ```bash
-     npx serve .
-     ```
-
-3. Abra no navegador (em modo portrait se estiver testando em desktop/notebook):
-
-   - `http://localhost:8000` (ou a porta usada)
-
-4. Para uso em flipchart/kiosk:
-
-   - Abra o navegador em tela cheia (F11 ou modo kiosk).
-   - Garanta que a tela está em orientação **vertical (portrait)**.
+- Abra o navegador em tela cheia (F11 ou modo kiosk).
+- Garanta que a tela está em orientação **vertical (portrait)**.
+- A página recarrega automaticamente a cada 10 minutos, limpando o cache.
 
 ## Onde editar os cursos / disciplinas / salas
 
@@ -223,7 +229,7 @@ Você pode:
 ## Resumo de UX / funcionamento
 
 - Tela 1 (**Cursos**):
-  - Header com título “START UNISENAC” + subtítulo “Conectando você ao futuro!”.
+  - Header com título “SALAS UNISENAC” + subtítulo “Conectando você ao futuro!”.
   - Botão discreto “Início” sempre disponível no canto superior direito.
   - Grid de cursos com no máximo 2 colunas (em telas menores vira 1 coluna).
   - Botões grandes, com glow neon, pensados para toque em pé (altura mínima ~88px).
