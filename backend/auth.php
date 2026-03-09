@@ -28,7 +28,8 @@ function auth_current_user(): ?array
 function auth_require_login(): void
 {
     if (!auth_current_user()) {
-        header('Location: /salas/backend/admin/login.php');
+        $base = defined('APP_BASE_PATH') ? APP_BASE_PATH : '';
+        header('Location: ' . $base . '/backend/admin/login.php');
         exit;
     }
 }

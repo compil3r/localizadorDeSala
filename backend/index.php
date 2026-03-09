@@ -1,4 +1,5 @@
 <?php
-// Redireciona para o kiosk quando acessar a raiz do backend
-header('Location: /kiosk/');
+require_once __DIR__ . '/config.php';
+$base = defined('APP_BASE_PATH') ? APP_BASE_PATH : '';
+header('Location: ' . $base . '/backend/kiosk/');
 exit;

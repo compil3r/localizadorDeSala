@@ -35,6 +35,23 @@ Se quiser rodar só o frontend (usando JSON estático):
 
 2. Ou use Python/Node na raiz e ajuste `CONFIG.apiUrl` em `script.js` para apontar ao backend.
 
+### Deploy em subpasta (ex: exemplo.com/salas/)
+
+Quando o projeto está em uma subpasta (ex: `/salas/`), defina o base path:
+
+**Opção 1 – Variável de ambiente** (recomendado):
+
+- **Apache** (em `.htaccess` ou no vhost): `SetEnv KIOSK_BASE_PATH /salas`
+- **Nginx**: `fastcgi_param KIOSK_BASE_PATH /salas;`
+
+**Opção 2 – Editar `backend/config.php`**:
+
+```php
+$basePath = '/salas';  // antes da linha que usa getenv
+```
+
+Assim, links, redirects e a API usam o caminho correto automaticamente.
+
 ### Uso em flipchart/kiosk
 
 - Abra o navegador em tela cheia (F11 ou modo kiosk).
