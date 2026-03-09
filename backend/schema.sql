@@ -1,9 +1,40 @@
--- Esquema inicial para o backend START UniSenac
--- Foco: cursos, unidades curriculares (disciplinas) e ofertas por curso.
+-- Esquema inicial para o backend Salas UniSenac
+-- Foco: cursos, unidades curriculares (disciplinas), ofertas por curso
+-- e autenticação básica de usuários (admin + coordenadores).
+
+-- IMPORTANTE:
+-- Este script foi pensado para ser executado inteiro em ambiente de desenvolvimento.
+-- Ele apaga as tabelas existentes e recria tudo do zero.
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS course_offerings;
+DROP TABLE IF EXISTS disciplines;
+DROP TABLE IF EXISTS courses;
+DROP TABLE IF EXISTS teachers;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS coordinators;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE coordinators (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE users (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('ADMIN','COORDINATOR') NOT NULL DEFAULT 'COORDINATOR',
+    coordinator_id INT UNSIGNED NULL,
+    active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_users_coordinator
+        FOREIGN KEY (coordinator_id) REFERENCES coordinators(id)
+        ON DELETE SET NULL,
+    UNIQUE KEY uq_users_email (email)
 );
 
 CREATE TABLE courses (

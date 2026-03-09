@@ -22,7 +22,6 @@ const state = {
   meta: {},
 };
 
-// Referências de elementos
 const dom = {};
 
 function cacheDom() {
@@ -45,7 +44,6 @@ async function init() {
 function scheduleReload() {
   if (CONFIG.reloadIntervalMs > 0) {
     setTimeout(() => {
-      // Recarrega a página limpando o cache (nova URL evita cache do navegador)
       location.replace(location.pathname + "?t=" + Date.now());
     }, CONFIG.reloadIntervalMs);
   }
@@ -53,7 +51,6 @@ function scheduleReload() {
 
 function setupEvents() {
   const goHome = () => showScreen("courses");
-
   dom.btnBackCourses?.addEventListener("click", goHome);
 }
 
@@ -98,7 +95,6 @@ function renderCourses() {
 
   let cursos = [...state.cursos];
 
-  // Manhã: coluna única; Noite: duas colunas
   if (dom.coursesGrid) {
     const turno = (state.meta.turno || "").toUpperCase();
     dom.coursesGrid.classList.toggle("course-grid--single-column", turno === "MANHA");
@@ -204,7 +200,6 @@ function renderDisciplines(curso) {
   dom.disciplineList.innerHTML = "";
   dom.disciplineList.appendChild(fragment);
 
-  // Garante que o topo da lista esteja visível ao trocar de curso
   dom.disciplineList.scrollTop = 0;
 }
 
@@ -217,6 +212,4 @@ function showScreen(which) {
   dom.screenCourseDetail.classList.toggle("screen--active", !isCourses);
 }
 
-// Inicialização
 window.addEventListener("DOMContentLoaded", init);
-
