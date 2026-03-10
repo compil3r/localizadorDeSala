@@ -135,6 +135,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
     }
 }
 
+// Edição de oferta própria: docente, turno e dia; propaga para cursos que compartilham a UC
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_offering') {
+    $offeringId = (int) ($_POST['offering_id'] ?? 0);
+    $newTeacherId = (int) ($_POST['teacher_id'] ?? 0);
+    $newTurno = $_POST['turno'] ?? '';
+    $newDia = $_POST['dia_semana'] ?? '';
+
+    $validTurno = ['MANHA', 'NOITE'];
+    $validDia = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'];
+
+    if ($offeringId > 0 && $newTeacherId > 0 && in_array($newTurno, $validTurno, true) && in_array($newDia, $validDia, true)) {
+        $offStmt = $pdo->prepare('
+            SELECT id, course_id, discipline_id, teacher_id, turno, dia_semana, origin_type
+            FROM course_offerings WHERE id = :id
+        ');
+        $offStmt->execute(['id' => $offeringId]);
+        $off = $offStmt->fetch();
+
+        if ($off && (int) $off['course_id'] === $courseId && $off['origin_type'] === 'PROPRIA') {
+            $dupStmt = $pdo->prepare('
+                SELECT 1 FROM course_offerings
+                WHERE course_id = :course_id
+                  AND discipline_id = :discipline_id
+                  AND teacher_id = :teacher_id
+                  AND turno = :turno
+                  AND dia_semana = :dia_semana
+                  AND id != :id
+                LIMIT 1
+            ');
+            $dupStmt->execute([
+                'course_id'     => $courseId,
+                'discipline_id' => $off['discipline_id'],
+                'teacher_id'    => $newTeacherId,
+                'turno'         => $newTurno,
+                'dia_semana'    => $newDia,
+                'id'            => $offeringId,
+            ]);
+
+            if ($dupStmt->fetch()) {
+                $_SESSION['oferta_error'] = 'Já existe outra oferta neste curso com esse docente, turno e dia.';
+            } else {
+                $updStmt = $pdo->prepare('
+                    UPDATE course_offerings
+                    SET teacher_id = :teacher_id, turno = :turno, dia_semana = :dia_semana
+                    WHERE discipline_id = :discipline_id
+                      AND teacher_id = :old_teacher_id
+                      AND turno = :old_turno
+                      AND dia_semana = :old_dia
+                ');
+                $updStmt->execute([
+                    'teacher_id'    => $newTeacherId,
+                    'turno'         => $newTurno,
+                    'dia_semana'    => $newDia,
+                    'discipline_id' => $off['discipline_id'],
+                    'old_teacher_id' => $off['teacher_id'],
+                    'old_turno'     => $off['turno'],
+                    'old_dia'       => $off['dia_semana'],
+                ]);
+            }
+            header('Location: ofertas.php?course_id=' . $courseId);
+            exit;
+        }
+    }
+}
+
 // Lista atual de ofertas (inclui próprias, optativas e compartilhadas)
 $offerStmt = $pdo->prepare("
     SELECT
@@ -163,9 +228,15 @@ $offerStmt = $pdo->prepare("
 $offerStmt->execute(['course_id' => $courseId, 'course_id_sub' => $courseId]);
 $offerings = $offerStmt->fetchAll();
 
+// Lista de docentes (para o modal de edição de oferta própria)
+$teachersStmt = $pdo->query('SELECT id, name FROM teachers ORDER BY name');
+$teachers = $teachersStmt ? $teachersStmt->fetchAll() : [];
+
 // Todas as ofertas de OUTROS cursos (cada oferta = uma opção para incluir)
 $offeringsStmt = $pdo->prepare('
     SELECT o.id,
+           o.discipline_id,
+           o.teacher_id,
            c.code AS course_code,
            c.name AS course_name,
            d.name AS discipline_name,
@@ -256,6 +327,16 @@ if (isset($_SESSION['oferta_error'])) unset($_SESSION['oferta_error']);
                     <span class="pill"><?= htmlspecialchars($o['origin_type']) ?></span>
                 </td>
                 <td>
+                    <?php if ($o['origin_type'] === 'PROPRIA'): ?>
+                    <button type="button" class="btn btn-outline-secondary btn-sm btn-edit-offering me-1"
+                            data-offering-id="<?= (int) $o['id'] ?>"
+                            data-teacher-id="<?= (int) $o['teacher_id'] ?>"
+                            data-turno="<?= htmlspecialchars($o['turno']) ?>"
+                            data-dia="<?= htmlspecialchars($o['dia_semana']) ?>"
+                            title="Alterar docente, turno e dia (afeta cursos que compartilham esta UC)">
+                        Editar
+                    </button>
+                    <?php endif; ?>
                     <button type="button" class="btn btn-outline-danger btn-sm btn-remove-offering"
                             data-offering-id="<?= (int) $o['id'] ?>"
                             data-origin-type="<?= htmlspecialchars($o['origin_type']) ?>"
@@ -295,6 +376,54 @@ if (isset($_SESSION['oferta_error'])) unset($_SESSION['oferta_error']);
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="btn-confirm-delete-all">Sim, remover de todos</button>
             </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal editar oferta própria (docente, turno, dia) -->
+    <div class="modal fade" id="modal-edit-offering" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5 mb-0">Editar oferta própria</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form method="post" id="form-edit-offering" class="modal-body">
+                <input type="hidden" name="action" value="edit_offering">
+                <input type="hidden" name="offering_id" id="edit-offering-id" value="">
+                <p class="text-muted small mb-3">A alteração vale para todos os cursos que compartilham esta unidade curricular.</p>
+                <div class="mb-3">
+                    <label class="form-label" for="edit-teacher">Docente</label>
+                    <select class="form-select" name="teacher_id" id="edit-teacher" required>
+                        <option value="">Selecione o docente</option>
+                        <?php foreach ($teachers as $t): ?>
+                        <option value="<?= (int) $t['id'] ?>"><?= htmlspecialchars($t['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edit-turno">Turno</label>
+                    <select class="form-select" name="turno" id="edit-turno" required>
+                        <option value="MANHA">Manhã</option>
+                        <option value="NOITE">Noite</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edit-dia">Dia da semana</label>
+                    <select class="form-select" name="dia_semana" id="edit-dia" required>
+                        <option value="SEG">Segunda</option>
+                        <option value="TER">Terça</option>
+                        <option value="QUA">Quarta</option>
+                        <option value="QUI">Quinta</option>
+                        <option value="SEX">Sexta</option>
+                        <option value="SAB">Sábado</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
         </div>
         </div>
     </div>
@@ -383,7 +512,23 @@ if (isset($_SESSION['oferta_error'])) unset($_SESSION['oferta_error']);
             thDia?.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); sortByDia(); } });
             sortByDia(); // ordem inicial por dia
             const modalNew = new bootstrap.Modal(document.getElementById('modal-offering-backdrop'));
+            const modalEdit = new bootstrap.Modal(document.getElementById('modal-edit-offering'));
             const modalDeleteAll = new bootstrap.Modal(document.getElementById('modal-delete-all'));
+            const formEdit = document.getElementById('form-edit-offering');
+            const editOfferingId = document.getElementById('edit-offering-id');
+            const editTeacher = document.getElementById('edit-teacher');
+            const editTurno = document.getElementById('edit-turno');
+            const editDia = document.getElementById('edit-dia');
+
+            document.querySelectorAll('.btn-edit-offering').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    editOfferingId.value = this.dataset.offeringId;
+                    editTeacher.value = this.dataset.teacherId;
+                    editTurno.value = this.dataset.turno;
+                    editDia.value = this.dataset.dia;
+                    modalEdit.show();
+                });
+            });
             const formDelete = document.getElementById('form-delete-offering');
             const inputOfferingId = document.getElementById('delete-offering-id');
             const inputScope = document.getElementById('delete-scope');
