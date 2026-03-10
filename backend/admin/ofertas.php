@@ -135,19 +135,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
     }
 }
 
-// Edição de oferta própria: docente, turno e dia; propaga para cursos que compartilham a UC
+// Edição de oferta própria: docente, turno, dia e sala; propaga para cursos que compartilham a UC
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_offering') {
     $offeringId = (int) ($_POST['offering_id'] ?? 0);
     $newTeacherId = (int) ($_POST['teacher_id'] ?? 0);
     $newTurno = $_POST['turno'] ?? '';
     $newDia = $_POST['dia_semana'] ?? '';
+    $newRoom = trim($_POST['room'] ?? '');
 
     $validTurno = ['MANHA', 'NOITE'];
     $validDia = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'];
 
     if ($offeringId > 0 && $newTeacherId > 0 && in_array($newTurno, $validTurno, true) && in_array($newDia, $validDia, true)) {
         $offStmt = $pdo->prepare('
-            SELECT id, course_id, discipline_id, teacher_id, turno, dia_semana, origin_type
+            SELECT id, course_id, discipline_id, teacher_id, turno, dia_semana, room, origin_type
             FROM course_offerings WHERE id = :id
         ');
         $offStmt->execute(['id' => $offeringId]);
@@ -178,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_
             } else {
                 $updStmt = $pdo->prepare('
                     UPDATE course_offerings
-                    SET teacher_id = :teacher_id, turno = :turno, dia_semana = :dia_semana
+                    SET teacher_id = :teacher_id, turno = :turno, dia_semana = :dia_semana, room = :room
                     WHERE discipline_id = :discipline_id
                       AND teacher_id = :old_teacher_id
                       AND turno = :old_turno
@@ -188,6 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_
                     'teacher_id'    => $newTeacherId,
                     'turno'         => $newTurno,
                     'dia_semana'    => $newDia,
+                    'room'          => $newRoom === '' ? null : $newRoom,
                     'discipline_id' => $off['discipline_id'],
                     'old_teacher_id' => $off['teacher_id'],
                     'old_turno'     => $off['turno'],
@@ -333,7 +335,8 @@ if (isset($_SESSION['oferta_error'])) unset($_SESSION['oferta_error']);
                             data-teacher-id="<?= (int) $o['teacher_id'] ?>"
                             data-turno="<?= htmlspecialchars($o['turno']) ?>"
                             data-dia="<?= htmlspecialchars($o['dia_semana']) ?>"
-                            title="Alterar docente, turno e dia (afeta cursos que compartilham esta UC)">
+                            data-room="<?= htmlspecialchars($o['sala'] ?? '') ?>"
+                            title="Alterar docente, turno, dia e sala (afeta cursos que compartilham esta UC)">
                         Editar
                     </button>
                     <?php endif; ?>
@@ -418,6 +421,10 @@ if (isset($_SESSION['oferta_error'])) unset($_SESSION['oferta_error']);
                         <option value="SEX">Sexta</option>
                         <option value="SAB">Sábado</option>
                     </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edit-room">Sala</label>
+                    <input type="text" class="form-control" name="room" id="edit-room" maxlength="32" placeholder="Ex: 203">
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -519,6 +526,7 @@ if (isset($_SESSION['oferta_error'])) unset($_SESSION['oferta_error']);
             const editTeacher = document.getElementById('edit-teacher');
             const editTurno = document.getElementById('edit-turno');
             const editDia = document.getElementById('edit-dia');
+            const editRoom = document.getElementById('edit-room');
 
             document.querySelectorAll('.btn-edit-offering').forEach(function (btn) {
                 btn.addEventListener('click', function () {
@@ -526,6 +534,7 @@ if (isset($_SESSION['oferta_error'])) unset($_SESSION['oferta_error']);
                     editTeacher.value = this.dataset.teacherId;
                     editTurno.value = this.dataset.turno;
                     editDia.value = this.dataset.dia;
+                    editRoom.value = this.dataset.room || '';
                     modalEdit.show();
                 });
             });
