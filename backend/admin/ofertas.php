@@ -234,7 +234,7 @@ $offerings = $offerStmt->fetchAll();
 $teachersStmt = $pdo->query('SELECT id, name FROM teachers ORDER BY name');
 $teachers = $teachersStmt ? $teachersStmt->fetchAll() : [];
 
-// Todas as ofertas de OUTROS cursos (cada oferta = uma opção para incluir)
+// Ofertas PRÓPRIAS de outros cursos (só essas podem ser incluídas como compartilhada/optativa)
 $offeringsStmt = $pdo->prepare('
     SELECT o.id,
            o.discipline_id,
@@ -251,6 +251,7 @@ $offeringsStmt = $pdo->prepare('
     INNER JOIN disciplines d ON d.id = o.discipline_id
     INNER JOIN teachers t ON t.id = o.teacher_id
     WHERE o.course_id != :course_id
+      AND o.origin_type = \'PROPRIA\'
     ORDER BY c.code, d.name, o.turno, t.name
 ');
 $offeringsStmt->execute(['course_id' => $courseId]);
