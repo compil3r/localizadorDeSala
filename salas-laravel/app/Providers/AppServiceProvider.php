@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +28,11 @@ class AppServiceProvider extends ServiceProvider
                 URL::forceRootUrl($root . '/' . $base);
             }
         }
+
+        // Base absoluta para assets (scheme + host + base_path) para funcionar em subpasta
+        $assetBase = request()
+            ? rtrim(request()->getSchemeAndHttpHost() . rtrim((string) config('app.base_path', ''), '/'), '/')
+            : rtrim((string) config('app.url', ''), '/');
+        View::share('assetBase', $assetBase);
     }
 }

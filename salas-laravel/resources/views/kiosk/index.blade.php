@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Salas UniSenac - Localizador de Salas</title>
-    <link rel="stylesheet" href="{{ asset('css/kiosk.css') }}">
+    <link rel="stylesheet" href="{{ $assetBase }}/css/kiosk.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -48,7 +48,7 @@
             <div class="kiosk-footer__logos">
                 <div class="logo logo--senac" aria-label="Logo Senac"></div>
                 <div class="logo logo--sistema-comercio" aria-label="Logo Sistema Comércio">
-                    <img src="{{ asset('images/logouni.png') }}" alt="Sistema Comércio" loading="lazy" onerror="this.style.display='none'">
+                    <img src="{{ $assetBase }}/images/logouni.png" alt="Sistema Comércio" loading="lazy" onerror="this.style.display='none'">
                 </div>
             </div>
         </footer>
