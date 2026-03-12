@@ -57,6 +57,12 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    /*
+    | Base path when the app is served from a subfolder (ex.: /salas).
+    | Set APP_BASE_PATH=/salas in .env so routes match /salas, /salas/login, etc.
+    */
+    'base_path' => env('APP_BASE_PATH', ''),
+
     'asset_url' => env('ASSET_URL'),
 
     /*
