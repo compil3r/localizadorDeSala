@@ -26,6 +26,8 @@
 
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-card-hover: 0 8px 24px rgba(0, 76, 148, 0.08);
+
+  --kiosk-header-height: 160px;
 }
 
 *,
@@ -91,11 +93,20 @@ button {
 }
 
 .kiosk-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding-bottom: 20px;
+  padding: calc(env(safe-area-inset-top, 0px) + 28px) var(--safe-area-padding) 20px;
+  padding-left: calc(env(safe-area-inset-left, 0px) + var(--safe-area-padding));
+  padding-right: calc(env(safe-area-inset-right, 0px) + var(--safe-area-padding));
+  background-color: var(--color-bg);
 }
 
 .kiosk-header__titles {
@@ -173,10 +184,21 @@ button {
   color: var(--color-text-on-dark);
 }
 
+.kiosk-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-top: var(--kiosk-header-height);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .kiosk-main {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
   overflow: visible;
 }
 

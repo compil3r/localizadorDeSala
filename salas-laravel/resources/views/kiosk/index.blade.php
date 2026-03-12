@@ -19,6 +19,7 @@
             </div>
         </header>
 
+        <div class="kiosk-scroll">
         <main class="kiosk-main">
             <section id="screen-courses" class="screen screen--active screen--courses" aria-label="Lista de cursos">
                 <div class="screen-body">
@@ -52,6 +53,7 @@
                 </div>
             </div>
         </footer>
+        </div>
     </div>
 
     <script>
