@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        if (Schema::hasTable('users')) {
+            return;
+        }
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password_hash');
+            $table->enum('role', ['ADMIN', 'COORDINATOR'])->default('COORDINATOR');
+            $table->unsignedBigInteger('coordinator_id')->nullable();
+            $table->boolean('active')->default(true);
+            $table->timestamp('created_at')->useCurrent();
+            $table->rememberToken();
+
+            $table->foreign('coordinator_id')->references('id')->on('coordinators')->onDelete('set null');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+    }
+};

@@ -1,2 +1,7 @@
 .env
 .DS_Store
+
+# Laravel (salas-laravel)
+/salas-laravel/vendor
+/salas-laravel/node_modules
+/salas-laravel/.env
