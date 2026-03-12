@@ -1,9 +1,0 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /salas/
-
-    # Encaminha todas as requisições para o front controller do Laravel (public)
-    # Ex.: /salas/ → salas-laravel/public/ , /salas/login → salas-laravel/public/login
-    # O .htaccess dentro de salas-laravel/public envia o que não for arquivo para index.php
-    RewriteRule ^(.*)$ salas-laravel/public/$1 [L]
-</IfModule>
