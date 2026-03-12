@@ -1,4 +1,27 @@
-/* Estilos compartilhados para o painel administrativo Salas UniSenac */
+/* ==========================================================================
+   Painel Admin Salas UniSenac – mesmo visual do kiosk (SENAC)
+   Cores: Azul #004C94, Laranja #F7941D
+   ========================================================================== */
+
+:root {
+  --color-senac-blue: #004C94;
+  --color-senac-blue-soft: rgba(0, 76, 148, 0.06);
+  --color-senac-blue-border: rgba(0, 76, 148, 0.2);
+  --color-senac-orange: #F7941D;
+  --color-senac-orange-soft: rgba(247, 148, 29, 0.12);
+
+  --color-bg: #fafafa;
+  --color-surface: #ffffff;
+  --color-text: #1a202c;
+  --color-text-muted: #64748b;
+  --color-text-on-dark: #ffffff;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 24px rgba(0, 76, 148, 0.08);
+  --font-body: "Work Sans", system-ui, sans-serif;
+}
 
 *,
 *::before,
@@ -7,35 +30,239 @@
 }
 
 body {
-  background: #f5f5f7;
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Bootstrap overrides – cores SENAC */
+.btn-primary,
+.navbar-dark.bg-primary,
+.bg-primary {
+  background-color: var(--color-senac-blue) !important;
+  border-color: var(--color-senac-blue) !important;
+}
+.btn-primary:hover {
+  background-color: #003d75 !important;
+  border-color: #003d75 !important;
+}
+.btn-outline-primary {
+  color: var(--color-senac-blue);
+  border-color: var(--color-senac-blue);
+}
+.btn-outline-primary:hover {
+  background-color: var(--color-senac-blue-soft);
+  color: var(--color-senac-blue);
+  border-color: var(--color-senac-blue);
+}
+.alert-success {
+  background-color: rgba(0, 76, 148, 0.08);
+  border-color: var(--color-senac-blue-border);
+  color: var(--color-text);
+}
+.alert-warning,
+.alert-danger {
+  background-color: var(--color-senac-orange-soft);
+  border-color: rgba(247, 148, 29, 0.3);
+  color: var(--color-text);
+}
+
+/* Navbar – azul SENAC, bordas suaves */
+.admin-header .navbar {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 2px solid var(--color-senac-blue-border);
+}
+.admin-header .navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.admin-header .nav-link.active {
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+}
+
+/* Page header */
 .page-header {
   margin-bottom: 1.5rem;
 }
-
-.auth-body {
-  background: #f5f5f7;
+.page-header h1 {
+  color: var(--color-senac-blue);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.page-header .text-muted {
+  color: var(--color-text-muted) !important;
 }
 
-.tag {
-  font-size: 0.75rem;
+/* Conteúdo em card – mesmo estilo do kiosk */
+.page-content {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 2px solid var(--color-senac-blue-border);
+  overflow: hidden;
 }
 
+/* Tabelas – estilo card, bordas suaves */
+.page-content .table {
+  margin-bottom: 0;
+  color: var(--color-text);
+}
+.page-content .table thead th {
+  background: var(--color-senac-blue-soft);
+  color: var(--color-senac-blue);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-senac-blue-border);
+  padding: 1rem 1.25rem;
+}
+.page-content .table tbody td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(0, 76, 148, 0.08);
+  vertical-align: middle;
+}
+.page-content .table tbody tr:hover {
+  background: var(--color-senac-blue-soft);
+}
+.page-content .table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Botões de ação nas tabelas */
+.page-content .btn-sm.btn-primary {
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+}
+.page-content .btn-outline-secondary {
+  border-color: var(--color-senac-blue-border);
+  color: var(--color-senac-blue);
+  border-radius: var(--radius-sm);
+}
+.page-content .btn-outline-secondary:hover {
+  background: var(--color-senac-blue-soft);
+  border-color: var(--color-senac-blue);
+  color: var(--color-senac-blue);
+}
+.page-content .btn-outline-danger {
+  border-radius: var(--radius-sm);
+}
+
+/* Pills / tags – alinhado ao kiosk */
 .pill {
   display: inline-block;
-  padding: 0.2em 0.5em;
+  padding: 0.35em 0.75em;
   font-size: 0.75rem;
-  border-radius: 9999px;
-  background: #e9ecef;
-  color: #495057;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background: var(--color-senac-blue-soft);
+  color: var(--color-senac-blue);
+  border: 1px solid var(--color-senac-blue-border);
+}
+.tag {
+  font-size: 0.75rem;
+  border-radius: 6px;
+  padding: 0.25em 0.5em;
+  background: var(--color-senac-orange-soft);
+  color: var(--color-senac-orange);
+  font-weight: 500;
 }
 
+/* Sortable header */
 th.sortable {
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
 }
 th.sortable:hover {
-  background: #e9ecef;
+  background: rgba(0, 76, 148, 0.12) !important;
+}
+
+/* Login – card no estilo do kiosk */
+.auth-body {
+  background: var(--color-bg);
+}
+.auth-card {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card-hover);
+  border: 2px solid var(--color-senac-blue-border);
+  overflow: hidden;
+}
+.auth-card .card-body {
+  padding: 2rem;
+}
+.auth-card .card-body h1 {
+  color: var(--color-senac-blue);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.auth-card .form-control {
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-senac-blue-border);
+}
+.auth-card .form-control:focus {
+  border-color: var(--color-senac-blue);
+  box-shadow: 0 0 0 3px var(--color-senac-blue-soft);
+}
+.auth-card .btn-primary {
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+}
+
+/* Modais – bordas e sombras alinhadas */
+.modal-content {
+  border-radius: var(--radius);
+  border: 2px solid var(--color-senac-blue-border);
+  box-shadow: var(--shadow-card-hover);
+}
+.modal-header {
+  background: var(--color-senac-blue-soft);
+  border-bottom: 2px solid var(--color-senac-blue-border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 1rem 1.25rem;
+}
+.modal-header .modal-title {
+  color: var(--color-senac-blue);
+  font-weight: 700;
+}
+.modal-body .form-control,
+.modal-body .form-select {
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-senac-blue-border);
+}
+.modal-body .form-control:focus,
+.modal-body .form-select:focus {
+  border-color: var(--color-senac-blue);
+  box-shadow: 0 0 0 3px var(--color-senac-blue-soft);
+}
+.modal-footer {
+  border-top: 1px solid rgba(0, 76, 148, 0.08);
+  padding: 1rem 1.25rem;
+}
+.modal-footer .btn-primary {
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+.modal-footer .btn-outline-secondary {
+  border-radius: var(--radius-sm);
+  border-color: var(--color-senac-blue-border);
+  color: var(--color-text-muted);
+}
+.modal-footer .btn-outline-secondary:hover {
+  background: var(--color-senac-blue-soft);
+  border-color: var(--color-senac-blue);
+  color: var(--color-senac-blue);
+}
+.modal-footer .btn-danger {
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+/* Form labels */
+.form-label {
+  font-weight: 600;
+  color: var(--color-text);
 }
