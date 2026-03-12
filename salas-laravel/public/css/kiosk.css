@@ -194,6 +194,41 @@ button {
   gap: 24px;
 }
 
+/* Barra de rolagem azul e visível (Chrome, Safari, Edge, Firefox) */
+.kiosk-scroll,
+.course-grid,
+.discipline-list {
+  scrollbar-width: auto;
+  scrollbar-color: var(--color-senac-blue) var(--color-senac-blue-soft);
+}
+
+.kiosk-scroll::-webkit-scrollbar,
+.course-grid::-webkit-scrollbar,
+.discipline-list::-webkit-scrollbar {
+  width: 12px;
+}
+
+.kiosk-scroll::-webkit-scrollbar-track,
+.course-grid::-webkit-scrollbar-track,
+.discipline-list::-webkit-scrollbar-track {
+  background: var(--color-senac-blue-soft);
+  border-radius: 6px;
+}
+
+.kiosk-scroll::-webkit-scrollbar-thumb,
+.course-grid::-webkit-scrollbar-thumb,
+.discipline-list::-webkit-scrollbar-thumb {
+  background: var(--color-senac-blue);
+  border-radius: 6px;
+  border: 3px solid var(--color-senac-blue-soft);
+}
+
+.kiosk-scroll::-webkit-scrollbar-thumb:hover,
+.course-grid::-webkit-scrollbar-thumb:hover,
+.discipline-list::-webkit-scrollbar-thumb:hover {
+  background: #003d75;
+}
+
 .kiosk-main {
   flex: 1;
   display: flex;
