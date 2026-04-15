@@ -21,4 +21,14 @@ class Course extends Model
     {
         return $this->hasMany(CourseOffering::class, 'course_id');
     }
+
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class, 'course_id');
+    }
+
+    public function curriculumMatrix(): HasMany
+    {
+        return $this->hasMany(CurriculumMatrix::class, 'course_id');
+    }
 }

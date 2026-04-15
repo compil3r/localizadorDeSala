@@ -13,6 +13,28 @@
 </head>
 <body>
     <div class="container py-4">
+        @php
+            $allowedCourses = request()->attributes->get('allowedCourses');
+            $currentCourse = request()->attributes->get('currentCourse');
+            $redirectRouteName = request()->route()?->getName();
+        @endphp
+
+        @if($allowedCourses && $allowedCourses->count() > 1 && $currentCourse)
+            <div class="course-switcher mb-3">
+                <form method="post" action="{{ route('admin.switch-course') }}" class="course-switcher-form">
+                    @csrf
+                    <input type="hidden" name="redirect_route_name" value="{{ $redirectRouteName }}">
+                    <select class="form-select form-select-sm course-switcher-select" id="course_id_top" name="course_id" onchange="this.form.submit()">
+                        @foreach($allowedCourses as $c)
+                            <option value="{{ $c->id }}" {{ (int) $c->id === (int) $currentCourse->id ? 'selected' : '' }}>
+                                {{ $c->code }} – {{ $c->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+        @endif
+
         <header class="admin-header mb-4">
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded-2">
                 <div class="container-fluid">
@@ -29,9 +51,15 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ ($navCurrent ?? '') === 'oferta' ? 'active' : '' }}"
-                                   href="{{ route('admin.courses.index') }}">Oferta 2026/1</a>
+                                   href="{{ $currentCourse ? route('admin.offerings.index', $currentCourse->id) : route('admin.courses.index') }}">
+                                    Oferta 2026/1
+                                </a>
                             </li>
                             @if(auth()->user()->isAdmin())
+                                <li class="nav-item">
+                                    <a class="nav-link {{ ($navCurrent ?? '') === 'fic' ? 'active' : '' }}"
+                                       href="{{ route('admin.fic.areas.index') }}">Cursos FIC</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ ($navCurrent ?? '') === 'coordenadores' ? 'active' : '' }}"
                                        href="{{ route('admin.coordinators.index') }}">Coordenadores</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Services\Fic\FicKioskPresenter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,9 @@ class KioskController extends Controller
 
         if ($diaSemana === 'DOM') {
             $meta['mensagem'] = 'Nenhuma aula aos domingos.';
+            $presenter = new FicKioskPresenter;
+            $cursos = $presenter->hubTiles($now, $turno);
+
             return view('kiosk.index', compact('cursos', 'meta'));
         }
 
@@ -72,12 +76,16 @@ class KioskController extends Controller
             ];
         }
 
+        $presenter = new FicKioskPresenter;
+        $cursos = array_merge($cursos, $presenter->hubTiles($now, $turno));
+
         return view('kiosk.index', compact('cursos', 'meta'));
     }
 
     private function shortCourseName(string $name): string
     {
         $trimmed = preg_replace(self::PREFIXO_CURSO, '', $name);
+
         return $trimmed !== null ? trim($trimmed) : $name;
     }
 }

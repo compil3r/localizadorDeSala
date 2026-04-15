@@ -63,7 +63,11 @@
     <script>
         (function () {
             const RELOAD_MS = 10 * 60 * 1000;
-            const state = { cursos: window.KIOSK_DATA || [], meta: window.KIOSK_META || {}, selectedCourseId: null };
+            const state = {
+                cursos: window.KIOSK_DATA || [],
+                meta: window.KIOSK_META || {},
+                stack: [{ kind: 'courses' }]
+            };
             const dom = {};
             function cacheDom() {
                 dom.screenCourses = document.getElementById('screen-courses');
@@ -72,6 +76,7 @@
                 dom.disciplineList = document.getElementById('discipline-list');
                 dom.btnBackCourses = document.getElementById('btn-back-courses');
                 dom.detailCourseTitle = document.getElementById('detail-course-title');
+                dom.detailCourseSubtitle = document.getElementById('detail-course-subtitle');
             }
             function showScreen(which) {
                 if (!dom.screenCourses || !dom.screenCourseDetail) return;
@@ -79,11 +84,30 @@
                 dom.screenCourses.classList.toggle('screen--active', isCourses);
                 dom.screenCourseDetail.classList.toggle('screen--active', !isCourses);
             }
+            function stackTop() {
+                return state.stack[state.stack.length - 1];
+            }
+            function stackPush(frame) {
+                state.stack.push(frame);
+                renderFromStack();
+            }
+            function stackPop() {
+                if (state.stack.length <= 1) return;
+                state.stack.pop();
+                renderFromStack();
+            }
+            function orderedCourseTiles() {
+                const raw = state.cursos || [];
+                const grads = raw.filter(function (c) { return (c.type || 'grad') === 'grad'; })
+                    .sort(function (a, b) { return (a.nome || '').localeCompare(b.nome || '', 'pt-BR'); });
+                const hubs = raw.filter(function (c) { return c.type === 'fic_hub'; });
+                return grads.concat(hubs);
+            }
             function renderCourses() {
                 if (!dom.coursesGrid) return;
                 const turno = (state.meta.turno || '').toUpperCase();
                 dom.coursesGrid.classList.toggle('course-grid--single-column', turno === 'MANHA');
-                const cursos = [...state.cursos].sort((a, b) => (a.nome || '').localeCompare(b.nome || '', 'pt-BR'));
+                const cursos = orderedCourseTiles();
                 if (cursos.length === 0) {
                     const msg = state.meta.mensagem || state.meta.dia_semana === 'DOM'
                         ? 'Nenhuma aula neste horário.'
@@ -95,32 +119,100 @@
                 cursos.forEach(function (curso) {
                     const btn = document.createElement('button');
                     btn.type = 'button';
-                    btn.className = 'course-card';
+                    btn.className = 'course-card' + (curso.type === 'fic_hub' ? ' course-card--fic-hub' : '');
                     btn.innerHTML = '<div class="course-card__code">' + (curso.codigoCurto || curso.nome || '') + '</div><div class="course-card__name">' + (curso.nome || '\u00A0') + '</div>';
                     btn.addEventListener('click', function () {
-                        state.selectedCourseId = curso.id;
-                        if (dom.detailCourseTitle) dom.detailCourseTitle.textContent = curso.nome || curso.codigoCurto || 'Curso';
-                        const disciplinas = (curso.disciplinas || []).sort((a, b) => (a.nome || '').localeCompare(b.nome || '', 'pt-BR'));
-                        dom.disciplineList.innerHTML = '';
-                        disciplinas.forEach(function (d) {
-                            const card = document.createElement('article');
-                            card.className = 'discipline-card';
-                            const sala = d.sala ? ('SALA ' + String(d.sala).toUpperCase()) : 'SALA A DEFINIR';
-                            card.innerHTML = '<div class="discipline-main"><h3 class="discipline-name">' + (d.nome || '') + '</h3><span class="badge-room">' + sala + '</span></div>' +
-                                (d.docente ? '<div class="discipline-meta"><span class="tag tag--docente">' + d.docente + '</span></div>' : '');
-                            dom.disciplineList.appendChild(card);
+                        if (curso.type === 'fic_hub') {
+                            stackPush({
+                                kind: 'grad_detail',
+                                title: curso.nome || 'Área',
+                                subtitle: 'Consulte abaixo as aulas, salas e docentes desta área.',
+                                disciplinas: curso.disciplinas || [],
+                                skipNomeSort: true,
+                                isFic: true
+                            });
+                            return;
+                        }
+                        stackPush({
+                            kind: 'grad_detail',
+                            title: curso.nome || curso.codigoCurto || 'Curso',
+                            disciplinas: curso.disciplinas || []
                         });
-                        showScreen('detail');
                     });
                     dom.coursesGrid.appendChild(btn);
                 });
+            }
+            function appendDisciplineCard(container, d) {
+                const card = document.createElement('article');
+                card.className = 'discipline-card';
+                const main = document.createElement('div');
+                main.className = 'discipline-main';
+                const h = document.createElement('h3');
+                h.className = 'discipline-name';
+                h.textContent = d.nome || '';
+                main.appendChild(h);
+                const sala = d.sala ? ('SALA ' + String(d.sala).toUpperCase()) : 'SALA A DEFINIR';
+                const badge = document.createElement('span');
+                badge.className = 'badge-room';
+                badge.textContent = sala;
+                main.appendChild(badge);
+                card.appendChild(main);
+                if (d.docente) {
+                    const meta = document.createElement('div');
+                    meta.className = 'discipline-meta';
+                    const tag = document.createElement('span');
+                    tag.className = 'tag tag--docente';
+                    tag.textContent = d.docente;
+                    meta.appendChild(tag);
+                    card.appendChild(meta);
+                }
+                container.appendChild(card);
+            }
+            function renderDetail(frame) {
+                if (!dom.disciplineList || !dom.detailCourseTitle) return;
+                if (frame.kind === 'grad_detail') {
+                    dom.detailCourseTitle.textContent = frame.title || 'Curso';
+                    if (dom.detailCourseSubtitle) {
+                        dom.detailCourseSubtitle.textContent = frame.subtitle || 'Consulte abaixo as disciplinas e salas deste curso.';
+                    }
+                    dom.disciplineList.innerHTML = '';
+                    var list = (frame.disciplinas || []).slice();
+                    if (!frame.skipNomeSort) {
+                        list.sort(function (a, b) {
+                            return (a.nome || '').localeCompare(b.nome || '', 'pt-BR');
+                        });
+                    }
+                    if (list.length === 0) {
+                        var empty = document.createElement('div');
+                        empty.className = 'discipline-card';
+                        var msg = frame.isFic
+                            ? 'Nenhum encontro cadastrado para esta área no momento.'
+                            : 'Nenhuma disciplina listada para este curso.';
+                        empty.innerHTML = '<h3 class="discipline-name">Sem informações</h3><p class="screen-description">' + msg + '</p>';
+                        dom.disciplineList.appendChild(empty);
+                        return;
+                    }
+                    list.forEach(function (d) {
+                        appendDisciplineCard(dom.disciplineList, d);
+                    });
+                }
+            }
+            function renderFromStack() {
+                var top = stackTop();
+                if (top.kind === 'courses') {
+                    showScreen('courses');
+                    renderCourses();
+                    return;
+                }
+                showScreen('detail');
+                renderDetail(top);
             }
             function scheduleReload() {
                 setTimeout(function () { location.replace(location.pathname + '?t=' + Date.now()); }, RELOAD_MS);
             }
             cacheDom();
-            dom.btnBackCourses && dom.btnBackCourses.addEventListener('click', function () { showScreen('courses'); });
-            renderCourses();
+            dom.btnBackCourses && dom.btnBackCourses.addEventListener('click', function () { stackPop(); });
+            renderFromStack();
             scheduleReload();
         })();
     </script>

@@ -21,4 +21,9 @@ class Discipline extends Model
     {
         return $this->hasMany(OfferingSlot::class, 'discipline_id');
     }
+
+    public function curriculumMatrix(): HasMany
+    {
+        return $this->hasMany(CurriculumMatrix::class, 'discipline_id');
+    }
 }
