@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="{{ $assetBase }}/css/kiosk.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="kiosk-bg-ball" aria-hidden="true">⚽</div>
     <div class="app safe-area">
         <header class="kiosk-header">
             <div class="kiosk-header__titles">

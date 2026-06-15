@@ -1,33 +1,37 @@
 /* ==========================================================================
-   Salas UniSenac – Visual moderno, centro universitário jovem
-   Cores SENAC: Azul #004C94, Laranja #F7941D
+   Salas UniSenac – Tema Copa do Mundo / Brasil (branch temporária)
+   Verde #006B3F · Amarelo #FFCC29 · Azul #002776
    ========================================================================== */
 :root {
-  --color-senac-blue: #004C94;
-  --color-senac-blue-soft: rgba(0, 76, 148, 0.06);
-  --color-senac-orange: #F7941D;
-  --color-senac-orange-soft: rgba(247, 148, 29, 0.12);
+  --color-senac-blue: #009C3B;
+  --color-senac-blue-soft: rgba(0, 156, 59, 0.18);
+  --color-senac-orange: #FFDF00;
+  --color-senac-orange-soft: rgba(255, 223, 0, 0.45);
+  --color-brazil-blue: #002776;
+  --color-brazil-yellow: #FFDF00;
+  --color-brazil-green-dark: #006622;
 
-  --color-bg: #fafafa;
+  --color-bg: #fff9e6;
   --color-surface: #ffffff;
 
-  --color-text: #1a202c;
-  --color-text-muted: #64748b;
+  --color-text: #0a2e14;
+  --color-text-muted: #1a5030;
   --color-text-on-dark: #ffffff;
 
-  --button-height: 88px;
+  --button-height: 92px;
   --course-card-height: 120px;
-  --radius: 16px;
-  --radius-sm: 10px;
+  --radius: 22px;
+  --radius-sm: 14px;
 
   --safe-area-padding: clamp(24px, 5vh, 40px);
-  --font-body: "Work Sans", system-ui, sans-serif;
+  --font-body: "Fredoka", "Barlow", system-ui, sans-serif;
+  --font-display: "Bungee", "Fredoka", system-ui, sans-serif;
   --app-max-width: 1080px;
 
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-card-hover: 0 8px 24px rgba(0, 76, 148, 0.08);
+  --shadow-card: 0 5px 0 var(--color-brazil-green-dark), 0 8px 24px rgba(0, 39, 118, 0.2);
+  --shadow-card-hover: 0 7px 0 var(--color-brazil-blue), 0 14px 32px rgba(0, 156, 59, 0.35);
 
-  --kiosk-header-height: 160px;
+  --kiosk-header-height: 168px;
 }
 
 *,
@@ -47,6 +51,20 @@ body {
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg);
+  background-image:
+    repeating-linear-gradient(
+      -12deg,
+      rgba(0, 156, 59, 0.07) 0 14px,
+      transparent 14px 28px
+    ),
+    repeating-linear-gradient(
+      12deg,
+      rgba(255, 223, 0, 0.12) 0 10px,
+      transparent 10px 20px
+    ),
+    radial-gradient(circle at 10% 20%, rgba(255, 223, 0, 0.35), transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(0, 156, 59, 0.25), transparent 40%),
+    linear-gradient(180deg, #fff4c2 0%, #e8ffe8 45%, #fff9db 100%);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -54,6 +72,21 @@ body {
   justify-content: center;
   align-items: stretch;
   overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle, rgba(255, 223, 0, 0.9) 2px, transparent 2px),
+    radial-gradient(circle, rgba(0, 156, 59, 0.85) 2px, transparent 2px),
+    radial-gradient(circle, rgba(0, 39, 118, 0.7) 1.5px, transparent 1.5px);
+  background-size: 56px 56px, 72px 72px, 40px 40px;
+  background-position: 0 0, 28px 28px, 14px 42px;
 }
 
 img {
@@ -102,11 +135,13 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: calc(env(safe-area-inset-top, 0px) + 28px) var(--safe-area-padding) 20px;
+  gap: 4px;
+  padding: calc(env(safe-area-inset-top, 0px) + 20px) var(--safe-area-padding) 16px;
   padding-left: calc(env(safe-area-inset-left, 0px) + var(--safe-area-padding));
   padding-right: calc(env(safe-area-inset-right, 0px) + var(--safe-area-padding));
-  background-color: var(--color-bg);
+  background: linear-gradient(180deg, #00b347 0%, #009c3b 55%, #007a2f 100%);
+  border-bottom: 5px solid var(--color-brazil-yellow);
+  box-shadow: 0 6px 0 var(--color-brazil-blue), 0 12px 28px rgba(0, 0, 0, 0.25);
 }
 
 .kiosk-header__titles {
@@ -115,27 +150,42 @@ button {
 }
 
 .kiosk-header__divider {
-  margin: 12px auto 0;
+  margin: 10px auto 0;
   border: none;
-  width: 60px;
-  height: 3px;
-  background: var(--color-senac-orange);
-  border-radius: 2px;
+  width: min(280px, 90%);
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--color-brazil-yellow) 0%,
+    #fff 25%,
+    var(--color-brazil-yellow) 50%,
+    #fff 75%,
+    var(--color-brazil-yellow) 100%
+  );
+  border-radius: 3px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .app-title {
   margin: 0;
-  font-size: clamp(1.5rem, 3vh, 1.9rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--color-senac-blue);
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 3.6vh, 2.15rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--color-brazil-yellow);
+  text-shadow:
+    3px 3px 0 var(--color-brazil-blue),
+    -1px -1px 0 var(--color-brazil-green-dark);
 }
 
 .app-subtitle {
-  margin: 0;
-  font-size: clamp(0.9rem, 1.6vh, 1rem);
-  font-weight: 500;
-  color: var(--color-text-muted);
+  margin: 4px 0 0;
+  font-size: clamp(1rem, 1.9vh, 1.15rem);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 1px 1px 0 var(--color-brazil-blue);
 }
 
 .btn-primary,
@@ -150,8 +200,12 @@ button {
 }
 
 .btn-primary {
-  background: var(--color-senac-blue);
+  background: linear-gradient(180deg, #00b347 0%, var(--color-senac-blue) 100%);
   color: var(--color-text-on-dark);
+  border: 3px solid var(--color-brazil-blue);
+  box-shadow: 0 4px 0 var(--color-brazil-blue);
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
 }
 
 .btn-secondary {
@@ -177,11 +231,28 @@ button {
 }
 
 .btn-back {
-  width: min(400px, 100%);
+  width: min(420px, 100%);
   min-height: var(--button-height);
-  font-size: 1.05rem;
-  background: var(--color-senac-orange);
-  color: var(--color-text-on-dark);
+  font-size: 1.15rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #fff176 0%, var(--color-brazil-yellow) 45%, #f5c400 100%);
+  color: var(--color-brazil-blue);
+  border: 4px solid var(--color-brazil-blue);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 0 var(--color-brazil-blue), 0 10px 24px rgba(255, 223, 0, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--color-brazil-blue), 0 14px 28px rgba(255, 223, 0, 0.55);
+}
+
+.btn-back:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--color-brazil-blue);
 }
 
 .kiosk-scroll {
@@ -226,7 +297,7 @@ button {
 .kiosk-scroll::-webkit-scrollbar-thumb:hover,
 .course-grid::-webkit-scrollbar-thumb:hover,
 .discipline-list::-webkit-scrollbar-thumb:hover {
-  background: #003d75;
+  background: #006622;
 }
 
 .kiosk-main {
@@ -258,22 +329,30 @@ button {
 }
 
 .screen-title {
-  margin: 0 0 6px;
-  font-size: clamp(1.2rem, 2.4vh, 1.5rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--color-text);
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.8vh, 1.75rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-brazil-blue);
+  text-shadow: 2px 2px 0 rgba(255, 223, 0, 0.85);
 }
 
 .screen-title--detail {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .screen-description {
   margin: 0 0 24px;
   color: var(--color-text-muted);
   font-size: clamp(0.95rem, 1.5vh, 1.05rem);
+  font-weight: 500;
   line-height: 1.5;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
 }
 
 .screen--courses .screen-title,
@@ -316,8 +395,8 @@ button {
   position: relative;
   height: var(--course-card-height);
   border-radius: var(--radius);
-  border: 2px solid rgba(0, 76, 148, 0.2);
-  background: var(--color-surface);
+  border: 4px solid var(--color-senac-blue);
+  background: linear-gradient(145deg, #ffffff 0%, #fffce0 55%, #fff4a8 100%);
   color: var(--color-text);
   padding: 20px 22px;
   display: flex;
@@ -327,7 +406,7 @@ button {
   text-align: left;
   cursor: pointer;
   box-shadow: var(--shadow-card);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   overflow: hidden;
 }
 
@@ -337,16 +416,23 @@ button {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
-  background: var(--color-senac-blue);
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  width: 10px;
+  background: linear-gradient(
+    180deg,
+    var(--color-senac-blue) 0%,
+    var(--color-senac-blue) 33%,
+    var(--color-brazil-yellow) 33%,
+    var(--color-brazil-yellow) 66%,
+    var(--color-brazil-blue) 66%,
+    var(--color-brazil-blue) 100%
+  );
+  opacity: 1;
 }
 
 .course-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px) scale(1.01);
   box-shadow: var(--shadow-card-hover);
-  border-color: var(--color-senac-blue);
+  border-color: var(--color-brazil-blue);
 }
 
 .course-card:hover::before {
@@ -363,27 +449,30 @@ button {
 }
 
 .course-card--fic-hub {
-  border-color: rgba(247, 148, 29, 0.45);
+  border-color: var(--color-brazil-blue);
+  background: linear-gradient(145deg, #e8eeff 0%, #fffce0 100%);
 }
 
 .course-card--fic-hub::before {
-  background: var(--color-senac-orange);
+  background: linear-gradient(180deg, var(--color-brazil-blue), var(--color-brazil-yellow));
 }
 
 .course-card--fic-hub:hover {
-  border-color: var(--color-senac-orange);
+  border-color: var(--color-brazil-yellow);
 }
 
 .course-card__code {
+  font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-senac-orange);
+  color: var(--color-brazil-blue);
   margin-bottom: 8px;
 }
 
 .course-card__name {
+  font-family: var(--font-body);
   font-size: clamp(1.1rem, 2.1vh, 1.3rem);
   font-weight: 600;
   color: var(--color-text);
@@ -407,48 +496,69 @@ button {
 }
 
 .discipline-card {
+  position: relative;
   border-radius: var(--radius);
-  padding: 18px 22px;
-  background: var(--color-surface);
-  border: none;
+  padding: 18px 22px 18px 26px;
+  background: linear-gradient(90deg, #fffef5 0%, #ffffff 100%);
+  border: 3px solid var(--color-senac-blue);
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: box-shadow 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+  flex-shrink: 0;
+  isolation: isolate;
+}
+
+.discipline-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  border-top-left-radius: calc(var(--radius) - 3px);
+  border-bottom-left-radius: calc(var(--radius) - 3px);
+  background: linear-gradient(
+    180deg,
+    var(--color-senac-blue) 33%,
+    var(--color-brazil-yellow) 33% 66%,
+    var(--color-brazil-blue) 66%
+  );
+  pointer-events: none;
 }
 
 .discipline-card:hover {
   box-shadow: var(--shadow-card-hover);
 }
 
-.discipline-card:active {
-  opacity: 0.98;
-}
-
-.discipline-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
 .discipline-name {
   margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-body);
   font-size: clamp(1.05rem, 2vh, 1.25rem);
   font-weight: 600;
+  line-height: 1.35;
   color: var(--color-text);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .badge-room {
+  flex-shrink: 0;
   border-radius: var(--radius-sm);
   padding: 8px 16px;
-  background: var(--color-senac-blue);
-  color: var(--color-text-on-dark);
+  background: linear-gradient(180deg, var(--color-brazil-yellow) 0%, #f5c400 100%);
+  color: var(--color-brazil-blue);
+  font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   white-space: nowrap;
+  border: 2px solid var(--color-brazil-blue);
+  box-shadow: 0 2px 0 var(--color-brazil-blue);
 }
 
 .discipline-meta {
@@ -462,13 +572,27 @@ button {
   border-radius: 6px;
   padding: 6px 12px;
   background: var(--color-senac-orange-soft);
-  color: var(--color-senac-orange);
+  color: var(--color-brazil-green-dark);
+  font-family: var(--font-body);
   font-weight: 500;
+  border: 1px solid rgba(0, 156, 59, 0.35);
 }
 
 .tag--docente {
-  background: var(--color-senac-orange-soft);
-  color: var(--color-senac-orange);
+  background: rgba(0, 156, 59, 0.12);
+  color: var(--color-brazil-green-dark);
+  border: 1px solid rgba(0, 156, 59, 0.35);
+}
+
+.discipline-card:active {
+  opacity: 0.98;
+}
+
+.discipline-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .kiosk-footer {
@@ -505,5 +629,47 @@ button {
 
   .btn-back {
     min-height: 70px;
+  }
+}
+
+/* Bola de fundo — quique entre os cantos (estilo telão) */
+.kiosk-bg-ball {
+  --ball-size: clamp(56px, 10vh, 88px);
+  position: fixed;
+  z-index: 200;
+  left: 4%;
+  top: calc(var(--kiosk-header-height) + 2%);
+  width: var(--ball-size);
+  height: var(--ball-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--ball-size);
+  line-height: 1;
+  opacity: 1;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.22));
+  animation:
+    kiosk-ball-x 7s linear infinite alternate,
+    kiosk-ball-y 4s linear infinite alternate;
+  will-change: left, top;
+}
+
+@keyframes kiosk-ball-x {
+  from {
+    left: 3%;
+  }
+  to {
+    left: calc(100% - 3% - var(--ball-size));
+  }
+}
+
+@keyframes kiosk-ball-y {
+  from {
+    top: calc(var(--kiosk-header-height) + 1%);
+  }
+  to {
+    top: calc(100% - 3% - var(--ball-size));
   }
 }
