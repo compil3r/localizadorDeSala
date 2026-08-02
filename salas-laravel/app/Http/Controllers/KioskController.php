@@ -63,7 +63,8 @@ class KioskController extends Controller
             $presenter = new FicKioskPresenter;
             $cursos = $presenter->hubTiles($now, $turno);
 
-            return view('kiosk.index', compact('cursos', 'meta'));
+            // Start UniSenac (primeiro dia): serve a skin de game. Reverter => 'kiosk.index'.
+            return view('kiosk.start', compact('cursos', 'meta'));
         }
 
         $activePeriodId = Period::where('is_active', true)->value('id');
@@ -114,7 +115,8 @@ class KioskController extends Controller
         $presenter = new FicKioskPresenter;
         $cursos = array_merge($cursos, $presenter->hubTiles($now, $turno));
 
-        return view('kiosk.index', compact('cursos', 'meta'));
+        // Start UniSenac (primeiro dia): serve a skin de game. Reverter => 'kiosk.index'.
+        return view('kiosk.start', compact('cursos', 'meta'));
     }
 
     private function shortCourseName(string $name): string

@@ -1,0 +1,513 @@
+/* Start UniSenac — design system retro-game / neon / tech
+   Fontes: "Press Start 2P" (títulos, chunky, uso pontual) + "VT323" (corpo, pixel legível). */
+
+:root {
+    --bg-0: #05030f;
+    --bg-1: #07051b;
+    --bg-2: #14093f;
+    --bg-3: #1a0651;
+
+    --cyan: #4cfffb;
+    --magenta: #ff5af1;
+    --yellow: #f9ff7b;
+    --green: #7bff9a;
+
+    --ink: #eaf6ff;
+    --ink-dim: #9db4d6;
+
+    --surface: rgba(18, 12, 48, 0.72);
+    --surface-2: rgba(10, 8, 30, 0.85);
+    --line: rgba(76, 255, 251, 0.28);
+
+    --font-pixel: "Press Start 2P", monospace;
+    --font-body: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+
+    --app-max-width: 1120px;
+    --safe-area-padding: clamp(18px, 3.5vh, 34px);
+    --radius: 6px;
+
+    --glow-cyan: 0 0 6px rgba(76, 255, 251, 0.75), 0 0 18px rgba(76, 255, 251, 0.35);
+    --glow-magenta: 0 0 6px rgba(255, 90, 241, 0.75), 0 0 20px rgba(255, 90, 241, 0.35);
+    --glow-yellow: 0 0 6px rgba(249, 255, 123, 0.8), 0 0 18px rgba(249, 255, 123, 0.4);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background:
+        radial-gradient(1200px 700px at 80% -10%, rgba(255, 90, 241, 0.14), transparent 60%),
+        radial-gradient(1000px 800px at -10% 20%, rgba(76, 255, 251, 0.12), transparent 55%),
+        linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 55%, var(--bg-0) 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* ---------- Camadas de efeito (fundo) ---------- */
+.fx-grid,
+.fx-scanlines,
+.fx-vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.fx-grid {
+    background-image:
+        linear-gradient(rgba(76, 255, 251, 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 90, 241, 0.08) 1px, transparent 1px);
+    background-size: 44px 44px, 44px 44px;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+            mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+    animation: gridScroll 12s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes gridScroll {
+    to { background-position: 0 44px, 44px 0; }
+}
+
+.fx-scanlines {
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0.22) 3px,
+        rgba(0, 0, 0, 0.22) 4px
+    );
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+}
+
+.fx-vignette {
+    background: radial-gradient(120% 100% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fx-grid { animation: none; }
+}
+
+/* ---------- Barra de simulação ---------- */
+.sim-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 6px 12px;
+    background: var(--surface-2);
+    border-bottom: 2px solid var(--magenta);
+    box-shadow: var(--glow-magenta);
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: var(--ink);
+    letter-spacing: 0.5px;
+}
+.sim-bar strong { color: var(--magenta); }
+.sim-bar select {
+    font-family: var(--font-body);
+    font-size: 16px;
+    padding: 2px 8px;
+    color: var(--ink);
+    background: #0b0820;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+}
+.sim-bar button {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    padding: 6px 10px;
+    color: #06121a;
+    background: var(--cyan);
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: var(--glow-cyan);
+}
+.sim-bar a {
+    color: var(--yellow);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--yellow);
+}
+
+/* ---------- App / layout ---------- */
+.app {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--app-max-width);
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: var(--safe-area-padding);
+    gap: clamp(14px, 2.4vh, 22px);
+}
+
+.kiosk-scroll {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2.4vh, 22px);
+}
+
+.kiosk-main {
+    flex: 1;
+    min-height: 0;
+}
+
+/* ---------- HUD / header ---------- */
+.hud {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: clamp(14px, 2.2vh, 22px) clamp(16px, 2.4vw, 26px);
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: inset 0 0 30px rgba(76, 255, 251, 0.08), 0 0 24px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+.hud::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(76, 255, 251, 0.06) 50%, transparent);
+    pointer-events: none;
+}
+
+.hud__title {
+    margin: 0;
+    font-family: var(--font-pixel);
+    font-size: clamp(30px, 6.6vw, 58px);
+    line-height: 1;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    text-shadow:
+        3px 3px 0 var(--magenta),
+        6px 6px 0 rgba(255, 90, 241, 0.35),
+        var(--glow-yellow);
+}
+.hud__caret {
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+    animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.hud__sub {
+    margin: 12px 0 0;
+    font-size: clamp(18px, 2.5vw, 24px);
+    letter-spacing: 1px;
+    color: var(--ink-dim);
+}
+.hud__sub span { color: var(--cyan); }
+
+/* ---------- Banner do auditório (quest) ---------- */
+.banner-quest {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    margin-bottom: clamp(14px, 2.2vh, 20px);
+    background: linear-gradient(90deg, rgba(255, 90, 241, 0.18), rgba(76, 255, 251, 0.12));
+    border: 2px solid var(--magenta);
+    border-radius: var(--radius);
+    box-shadow: var(--glow-magenta), inset 0 0 24px rgba(255, 90, 241, 0.12);
+    animation: questPulse 2.2s ease-in-out infinite;
+}
+@keyframes questPulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(255, 90, 241, 0.6), inset 0 0 20px rgba(255, 90, 241, 0.1); }
+    50% { box-shadow: 0 0 18px rgba(255, 90, 241, 0.9), 0 0 34px rgba(255, 90, 241, 0.4), inset 0 0 26px rgba(255, 90, 241, 0.18); }
+}
+.banner-quest__icon {
+    font-size: 26px;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    animation: nudge 0.9s steps(2) infinite;
+}
+@keyframes nudge { 50% { transform: translateX(5px); } }
+.banner-quest__text {
+    flex: 1;
+    font-size: clamp(20px, 2.7vw, 28px);
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+}
+.banner-quest__text strong {
+    font-family: var(--font-pixel);
+    font-size: clamp(10px, 1.5vw, 13px);
+    letter-spacing: 1px;
+    color: var(--magenta);
+    margin-right: 6px;
+}
+.banner-quest__hi {
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    font-weight: 400;
+}
+.banner-quest__blink {
+    color: var(--green);
+    font-size: 16px;
+    animation: blink 0.8s steps(1) infinite;
+    text-shadow: 0 0 8px var(--green);
+}
+.banner-quest--mini {
+    margin: 0;
+    padding: 10px 14px;
+    animation: none;
+}
+.banner-quest--mini .banner-quest__text { font-size: clamp(17px, 2vw, 21px); }
+
+/* ---------- Telas ---------- */
+.screen { display: none; }
+.screen--active { display: block; }
+
+.screen-body {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2vh, 18px);
+}
+
+.screen-title {
+    margin: 0;
+    font-family: var(--font-pixel);
+    font-size: clamp(13px, 2.1vw, 18px);
+    letter-spacing: 1px;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+}
+.screen-title--detail {
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    font-size: clamp(14px, 2.4vw, 20px);
+}
+.screen-description {
+    margin: 0;
+    font-size: clamp(17px, 2.1vw, 21px);
+    color: var(--ink-dim);
+    letter-spacing: 0.4px;
+}
+.screen-top { display: flex; flex-direction: column; gap: 8px; }
+.screen-actions { margin-top: clamp(14px, 2.4vh, 22px); }
+
+/* ---------- Grid de cursos ---------- */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(12px, 1.8vw, 18px);
+}
+.course-grid--single-column { grid-template-columns: 1fr; }
+
+.course-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 148px;
+    padding: 18px 18px 16px;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink);
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.45), inset 0 0 22px rgba(76, 255, 251, 0.06);
+    transition: transform 0.08s steps(2), box-shadow 0.12s, border-color 0.12s;
+    overflow: hidden;
+}
+.course-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(76, 255, 251, 0.10));
+    pointer-events: none;
+}
+.course-card:hover,
+.course-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--cyan);
+    box-shadow: 0 9px 0 rgba(0, 0, 0, 0.45), var(--glow-cyan);
+    outline: none;
+}
+.course-card:active { transform: translateY(2px); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.45), var(--glow-cyan); }
+
+.course-card__badge {
+    align-self: flex-start;
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    letter-spacing: 1px;
+    padding: 4px 6px;
+    color: #06121a;
+    background: var(--cyan);
+    border-radius: 3px;
+}
+.course-card__code {
+    font-family: var(--font-pixel);
+    font-size: clamp(16px, 2.6vw, 22px);
+    letter-spacing: 1px;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+}
+.course-card__name {
+    font-size: clamp(18px, 2.2vw, 23px);
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: 0.3px;
+}
+.course-card__meta {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: var(--ink-dim);
+}
+.course-card__go { color: var(--magenta); text-shadow: var(--glow-magenta); }
+
+.course-card--fic-hub {
+    border-color: rgba(255, 90, 241, 0.5);
+    background: linear-gradient(180deg, rgba(255, 90, 241, 0.12), var(--surface));
+}
+.course-card--fic-hub:hover,
+.course-card--fic-hub:focus-visible {
+    border-color: var(--magenta);
+    box-shadow: 0 9px 0 rgba(0, 0, 0, 0.45), var(--glow-magenta);
+}
+.course-card--fic-hub .course-card__badge { background: var(--magenta); color: #1a0322; }
+.course-card--fic-hub .course-card__code { color: var(--magenta); text-shadow: var(--glow-magenta); }
+.course-card--fic-hub .course-card__go { color: var(--cyan); text-shadow: var(--glow-cyan); }
+
+/* ---------- Lista de disciplinas ---------- */
+.discipline-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.8vh, 16px);
+}
+.discipline-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-left: 6px solid var(--cyan);
+    border-radius: var(--radius);
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+.discipline-card--empty {
+    border-left-color: var(--magenta);
+    align-items: flex-start;
+    gap: 8px;
+}
+.discipline-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.discipline-name {
+    margin: 0;
+    flex: 1;
+    min-width: 55%;
+    font-size: clamp(21px, 2.6vw, 28px);
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: 0.3px;
+}
+.badge-room {
+    font-family: var(--font-pixel);
+    font-size: clamp(12px, 1.8vw, 16px);
+    letter-spacing: 1px;
+    padding: 12px 16px;
+    color: #06121a;
+    background: var(--yellow);
+    border-radius: 4px;
+    box-shadow: var(--glow-yellow);
+    white-space: nowrap;
+}
+.badge-room--tbd {
+    color: var(--yellow);
+    background: transparent;
+    border: 2px dashed rgba(249, 255, 123, 0.6);
+    box-shadow: none;
+}
+.discipline-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+    font-size: clamp(16px, 2vw, 20px);
+    letter-spacing: 0.4px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--ink);
+}
+.tag--docente { color: var(--cyan); }
+
+/* ---------- Botão arcade ---------- */
+.btn-arcade {
+    display: inline-block;
+    width: 100%;
+    padding: 18px 22px;
+    font-family: var(--font-pixel);
+    font-size: clamp(11px, 1.7vw, 14px);
+    letter-spacing: 1px;
+    color: #06121a;
+    background: var(--cyan);
+    border: 0;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: 0 6px 0 #0a6f6c, var(--glow-cyan);
+    transition: transform 0.08s steps(2), box-shadow 0.1s;
+}
+.btn-arcade:hover, .btn-arcade:focus-visible { outline: none; filter: brightness(1.08); }
+.btn-arcade:active { transform: translateY(4px); box-shadow: 0 2px 0 #0a6f6c, var(--glow-cyan); }
+
+/* ---------- Footer ---------- */
+.kiosk-footer {
+    margin-top: auto;
+    padding-top: clamp(12px, 2vh, 18px);
+    border-top: 2px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.kiosk-footer__logos { display: flex; align-items: center; gap: 16px; }
+.logo--sistema-comercio img { height: 40px; width: auto; filter: drop-shadow(0 0 6px rgba(76, 255, 251, 0.4)); }
+.logo--senac { display: none; }
+
+/* ---------- Scrollbars ---------- */
+.kiosk-scroll, .course-grid, .discipline-list { scrollbar-width: thin; scrollbar-color: var(--cyan) transparent; }
+.kiosk-scroll::-webkit-scrollbar,
+.discipline-list::-webkit-scrollbar { width: 8px; }
+.kiosk-scroll::-webkit-scrollbar-thumb,
+.discipline-list::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 620px) {
+    .course-grid { grid-template-columns: 1fr; }
+    .hud { align-items: flex-start; }
+}
