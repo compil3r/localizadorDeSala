@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Oferta 2026/1')
+@section('title', 'Oferta')
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4 page-header">
         <div>
-            <h1 class="h4 mb-1">Oferta 2026/1</h1>
+            <h1 class="h4 mb-1">Oferta</h1>
             <p class="mb-0 text-muted">Escolha um curso para gerenciar ofertas (disciplinas próprias, optativas e compartilhadas).</p>
         </div>
     </div>

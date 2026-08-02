@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "salas-laravel",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd salas-laravel && php artisan serve --host=127.0.0.1 --port=8001"],
+      "port": 8001
+    }
+  ]
+}

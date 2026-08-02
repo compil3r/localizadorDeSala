@@ -52,7 +52,7 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ ($navCurrent ?? '') === 'oferta' ? 'active' : '' }}"
                                    href="{{ $currentCourse ? route('admin.offerings.index', $currentCourse->id) : route('admin.courses.index') }}">
-                                    Oferta 2026/1
+                                    Oferta
                                 </a>
                             </li>
                             @if(auth()->user()->isAdmin())

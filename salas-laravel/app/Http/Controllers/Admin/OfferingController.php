@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseOffering;
 use App\Models\OfferingSlot;
+use App\Models\Period;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -16,8 +17,11 @@ class OfferingController extends Controller
     {
         $this->authorizeCourse($course, $request);
 
+        $activePeriodId = Period::where('is_active', true)->value('id');
+
         $offerings = CourseOffering::with(['offeringSlot.discipline', 'offeringSlot.teacher'])
             ->where('course_id', $course->id)
+            ->whereHas('offeringSlot', fn ($q) => $q->where('period_id', $activePeriodId))
             ->get()
             ->map(function (CourseOffering $o) use ($course) {
                 $slot = $o->offeringSlot;
@@ -44,6 +48,7 @@ class OfferingController extends Controller
         $slotIdsAlreadyInCourse = $offerings->pluck('offering_slot_id')->unique()->values()->all();
         $slotIdsOtherPropria = CourseOffering::where('course_id', '!=', $course->id)
             ->where('origin_type', 'PROPRIA')
+            ->whereHas('offeringSlot', fn ($q) => $q->where('period_id', $activePeriodId))
             ->pluck('offering_slot_id')
             ->unique()
             ->values();
@@ -128,18 +133,17 @@ class OfferingController extends Controller
 
         $slot = $offering->offeringSlot;
 
-        $dup = CourseOffering::where('course_id', $course->id)
-            ->whereHas('offeringSlot', function ($q) use ($valid) {
-                $q->where('teacher_id', $valid['teacher_id'])
-                    ->where('turno', $valid['turno'])
-                    ->where('dia_semana', $valid['dia_semana']);
-            })
-            ->where('id', '!=', $offering->id)
+        $dup = OfferingSlot::where('period_id', $slot->period_id)
+            ->where('discipline_id', $slot->discipline_id)
+            ->where('teacher_id', $valid['teacher_id'])
+            ->where('turno', $valid['turno'])
+            ->where('dia_semana', $valid['dia_semana'])
+            ->where('id', '!=', $slot->id)
             ->exists();
 
         if ($dup) {
             return redirect()->route('admin.offerings.index', $course)
-                ->with('error', 'Já existe outra oferta neste curso com esse docente, turno e dia.');
+                ->with('error', 'Já existe outra turma desta disciplina com esse docente, turno e dia.');
         }
 
         $slot->update([

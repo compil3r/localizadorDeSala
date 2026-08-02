@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Period;
 use App\Services\Fic\FicKioskPresenter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,8 +40,11 @@ class KioskController extends Controller
             return view('kiosk.index', compact('cursos', 'meta'));
         }
 
+        $activePeriodId = Period::where('is_active', true)->value('id');
+
         $courseIds = DB::table('course_offerings')
             ->join('offering_slots', 'course_offerings.offering_slot_id', '=', 'offering_slots.id')
+            ->where('offering_slots.period_id', $activePeriodId)
             ->where('offering_slots.turno', $turno)
             ->where('offering_slots.dia_semana', $diaSemana)
             ->distinct()
@@ -49,6 +53,7 @@ class KioskController extends Controller
         $courses = Course::with([
             'offerings' => fn ($q) => $q
                 ->whereHas('offeringSlot', fn ($sq) => $sq
+                    ->where('period_id', $activePeriodId)
                     ->where('turno', $turno)
                     ->where('dia_semana', $diaSemana))
                 ->with(['offeringSlot.discipline', 'offeringSlot.teacher']),
