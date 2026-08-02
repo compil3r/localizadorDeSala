@@ -10,6 +10,7 @@ use App\Models\Period;
 use App\Models\Teacher;
 use App\Services\MatrizesCsv\NameNormalizer;
 use App\Services\OfertaCsv\OfertaCsvParser;
+use App\Services\TeacherNameFormatter;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -85,7 +86,7 @@ class ImportOfertaCsvCommand extends Command
         $courseIdByCode = Course::pluck('id', 'code')->all();
 
         $teacherByNorm = Teacher::pluck('id', 'name')->mapWithKeys(
-            fn ($id, $name) => [NameNormalizer::normalize((string) $name) => $id]
+            fn ($id, $name) => [NameNormalizer::normalize(TeacherNameFormatter::format((string) $name)) => $id]
         )->all();
 
         $disciplineByNorm = Discipline::pluck('id', 'name')->mapWithKeys(
@@ -114,9 +115,10 @@ class ImportOfertaCsvCommand extends Command
                 $courseCode = self::PREFIX_TO_COURSE_CODE[$row['curso_prefixo']];
                 $courseId = $courseIdByCode[$courseCode];
 
-                $teacherNorm = NameNormalizer::normalize($row['professor']);
+                $teacherDisplay = TeacherNameFormatter::format($row['professor']);
+                $teacherNorm = NameNormalizer::normalize($teacherDisplay);
                 if (!isset($teacherByNorm[$teacherNorm])) {
-                    $teacher = Teacher::create(['name' => $row['professor']]);
+                    $teacher = Teacher::create(['name' => $teacherDisplay]);
                     $teacherByNorm[$teacherNorm] = $teacher->id;
                     $stats['professores_criados']++;
                 }

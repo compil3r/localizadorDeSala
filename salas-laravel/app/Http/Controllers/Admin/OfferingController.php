@@ -19,6 +19,18 @@ class OfferingController extends Controller
 
         $activePeriodId = Period::where('is_active', true)->value('id');
 
+        if ($activePeriodId === null) {
+            session()->now('error', 'Nenhum período letivo ativo. Ative um período para visualizar e gerenciar as ofertas.');
+
+            return view('admin.offerings.index', [
+                'course' => $course,
+                'offerings' => collect(),
+                'teachers' => Teacher::orderBy('name')->get(),
+                'allOfferings' => [],
+                'navCurrent' => 'oferta',
+            ]);
+        }
+
         $offerings = CourseOffering::with(['offeringSlot.discipline', 'offeringSlot.teacher'])
             ->where('course_id', $course->id)
             ->whereHas('offeringSlot', fn ($q) => $q->where('period_id', $activePeriodId))

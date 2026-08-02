@@ -10,6 +10,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    @if(!empty($meta['sim']))
+        @php
+            $diasSim = ['SEG' => 'Segunda', 'TER' => 'Terça', 'QUA' => 'Quarta', 'QUI' => 'Quinta', 'SEX' => 'Sexta', 'SAB' => 'Sábado', 'DOM' => 'Domingo'];
+        @endphp
+        <form method="get" action="{{ url()->current() }}" class="sim-bar" style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;padding:8px 12px;background:#b45309;color:#fff;font-family:'Work Sans',sans-serif;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.25)">
+            <input type="hidden" name="sim" value="1">
+            <strong>Simulação</strong>
+            <select name="dia" style="padding:4px 8px;border-radius:6px;border:0">
+                @foreach($diasSim as $sigla => $rotulo)
+                    <option value="{{ $sigla }}" @selected($meta['dia_semana'] === $sigla)>{{ $rotulo }}</option>
+                @endforeach
+            </select>
+            <select name="turno" style="padding:4px 8px;border-radius:6px;border:0">
+                <option value="MANHA" @selected($meta['turno'] === 'MANHA')>Manhã</option>
+                <option value="NOITE" @selected($meta['turno'] === 'NOITE')>Noite</option>
+            </select>
+            <button type="submit" style="padding:4px 12px;border-radius:6px;border:0;background:#fff;color:#b45309;font-weight:600;cursor:pointer">Ver</button>
+            <a href="{{ url()->current() }}" style="color:#fff;text-decoration:underline">Sair da simulação</a>
+        </form>
+    @endif
     <div class="app safe-area">
         <header class="kiosk-header">
             <div class="kiosk-header__titles">
@@ -109,9 +129,10 @@
                 dom.coursesGrid.classList.toggle('course-grid--single-column', turno === 'MANHA');
                 const cursos = orderedCourseTiles();
                 if (cursos.length === 0) {
-                    const msg = state.meta.mensagem || state.meta.dia_semana === 'DOM'
-                        ? 'Nenhuma aula neste horário.'
-                        : 'Nenhum curso com aulas neste horário e dia. Verifique o painel admin.';
+                    const msg = state.meta.mensagem
+                        || (state.meta.dia_semana === 'DOM'
+                            ? 'Nenhuma aula neste horário.'
+                            : 'Nenhum curso com aulas neste horário e dia. Verifique o painel admin.');
                     dom.coursesGrid.innerHTML = '<div class="discipline-card"><h3 class="discipline-name">Nenhum curso no momento.</h3><p class="screen-description">' + msg + '</p></div>';
                     return;
                 }
@@ -208,7 +229,11 @@
                 renderDetail(top);
             }
             function scheduleReload() {
-                setTimeout(function () { location.replace(location.pathname + '?t=' + Date.now()); }, RELOAD_MS);
+                setTimeout(function () {
+                    var params = new URLSearchParams(location.search);
+                    params.set('t', Date.now());
+                    location.replace(location.pathname + '?' + params.toString());
+                }, RELOAD_MS);
             }
             cacheDom();
             dom.btnBackCourses && dom.btnBackCourses.addEventListener('click', function () { stackPop(); });
